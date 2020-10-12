@@ -1,0 +1,66 @@
+entity Teacher {
+ no Long,
+ specialization Specialization,
+ evaluation Integer,
+ qualification Qualification,
+ stage Stage, 
+ sumOfHours Integer,
+ isPredicted Boolean
+
+}
+
+entity Course {
+	id String, 
+    specialization Specialization,
+    name String,
+    type Type,
+    hours Integer 
+}
+
+entity MLModel {
+	tp Float, 
+    tn Float,
+    fp Float, 
+    fn Float, 
+    accuracy Float, 
+    precision Float, 
+    recall Float 
+}
+
+enum Specialization {
+	Arabic, English, Math, Science
+}
+
+enum Qualification {
+	Diploma, Bachelor, Master, PhD
+}
+
+enum Stage {
+	Priamry, Secondary
+}
+
+enum Type {
+	C, P
+}
+
+relationship ManyToMany {
+	Teacher{courses(id)} to Course{teachers}
+}
+
+paginate Teacher with pagination
+
+paginate Course with pagination
+
+
+// Use Data Transfer Objects (DTO)
+// dto * with mapstruct
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+filter *
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
+
