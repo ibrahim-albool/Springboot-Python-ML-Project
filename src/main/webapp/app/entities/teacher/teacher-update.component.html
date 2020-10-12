@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-teacher-heading">Create or edit a Teacher</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_number">Number</label>
+                    <input type="number" class="form-control" name="number" id="field_number"
+                           formControlName="number"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_specialization">Specialization</label>
+                    <select class="form-control" name="specialization" formControlName="specialization" id="field_specialization">
+                        <option value="Arabic">Arabic</option>
+                        <option value="English">English</option>
+                        <option value="Math">Math</option>
+                        <option value="Science">Science</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_evaluation">Evaluation</label>
+                    <input type="number" class="form-control" name="evaluation" id="field_evaluation"
+                           formControlName="evaluation"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_qualification">Qualification</label>
+                    <select class="form-control" name="qualification" formControlName="qualification" id="field_qualification">
+                        <option value="Diploma">Diploma</option>
+                        <option value="Bachelor">Bachelor</option>
+                        <option value="Master">Master</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stage">Stage</label>
+                    <select class="form-control" name="stage" formControlName="stage" id="field_stage">
+                        <option value="Priamry">Priamry</option>
+                        <option value="Secondary">Secondary</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_sumOfHours">Sum Of Hours</label>
+                    <input type="number" class="form-control" name="sumOfHours" id="field_sumOfHours"
+                           formControlName="sumOfHours"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isPredicted">Is Predicted</label>
+                    <input type="checkbox" class="form-control" name="isPredicted" id="field_isPredicted"
+                           formControlName="isPredicted"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="field_courses">Courses</label>
+                    <select class="form-control" id="field_courses" multiple name="courses" formControlName="courses">
+                        <option [ngValue]="getSelected(editForm.get('courses')!.value, courseOption)" *ngFor="let courseOption of courses; trackBy: trackById">{{ courseOption.code }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

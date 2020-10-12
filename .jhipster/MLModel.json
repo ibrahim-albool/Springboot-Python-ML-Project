@@ -1,0 +1,45 @@
+{
+  "name": "MLModel",
+  "fields": [
+    {
+      "fieldName": "tp",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "tn",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "fp",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "fn",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "accuracy",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "precision",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "recall",
+      "fieldType": "Float"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20201012230257",
+  "entityTableName": "ml_model",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

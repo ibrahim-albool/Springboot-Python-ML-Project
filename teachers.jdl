@@ -1,5 +1,5 @@
 entity Teacher {
- no Long,
+ number Long,
  specialization Specialization,
  evaluation Integer,
  qualification Qualification,
@@ -10,7 +10,7 @@ entity Teacher {
 }
 
 entity Course {
-	id String, 
+    code String,
     specialization Specialization,
     name String,
     type Type,
@@ -44,7 +44,7 @@ enum Type {
 }
 
 relationship ManyToMany {
-	Teacher{courses(id)} to Course{teachers}
+	Teacher{courses(code)} to Course{teachers}
 }
 
 paginate Teacher with pagination

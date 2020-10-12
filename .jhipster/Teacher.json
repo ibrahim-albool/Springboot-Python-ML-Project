@@ -1,0 +1,57 @@
+{
+  "name": "Teacher",
+  "fields": [
+    {
+      "fieldName": "number",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "specialization",
+      "fieldType": "Specialization",
+      "fieldValues": "Arabic,English,Math,Science"
+    },
+    {
+      "fieldName": "evaluation",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "qualification",
+      "fieldType": "Qualification",
+      "fieldValues": "Diploma,Bachelor,Master,PhD"
+    },
+    {
+      "fieldName": "stage",
+      "fieldType": "Stage",
+      "fieldValues": "Priamry,Secondary"
+    },
+    {
+      "fieldName": "sumOfHours",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "isPredicted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "course",
+      "otherEntityRelationshipName": "teachers",
+      "relationshipName": "courses",
+      "otherEntityField": "code",
+      "ownerSide": true
+    }
+  ],
+  "changelogDate": "20201012230057",
+  "entityTableName": "teacher",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

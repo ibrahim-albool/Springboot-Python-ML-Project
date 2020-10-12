@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+        <property name="autoIncrement" value="true"/>
+
+    <!--
+        Added the entity Teacher.
+    -->
+    <changeSet id="20201012230057-1" author="jhipster">
+        <createTable tableName="teacher">
+            <column name="number" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="specialization" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="evaluation" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="qualification" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="stage" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sum_of_hours" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="creation_date" type="DATETIME">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_predicted" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20201012230057-1-relations" author="jhipster">
+
+        <createTable tableName="teacher_courses">
+            <column name="courses_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="teacher_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="teacher_id, courses_id" tableName="teacher_courses"/>
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20201012230057-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/teacher.csv"
+                  separator=";"
+                  tableName="teacher">
+            <column name="number" type="numeric"/>
+            <column name="specialization" type="string"/>
+            <column name="evaluation" type="numeric"/>
+            <column name="qualification" type="string"/>
+            <column name="stage" type="string"/>
+            <column name="sum_of_hours" type="numeric"/>
+            <column name="creation_date" type="DATETIME"/>
+            <column name="is_predicted" type="boolean"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>
