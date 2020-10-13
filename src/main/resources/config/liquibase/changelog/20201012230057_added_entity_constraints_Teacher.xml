@@ -7,18 +7,22 @@
         Added the constraints for entity Teacher.
     -->
     <changeSet id="20201012230057-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="teacher_id"
-                                 baseTableName="teacher_courses"
-                                 constraintName="fk_teacher_courses_teacher_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="teacher"/>
 
-        <addForeignKeyConstraint baseColumnNames="courses_id"
+        <addForeignKeyConstraint baseColumnNames="teacher_number"
                                  baseTableName="teacher_courses"
-                                 constraintName="fk_teacher_courses_courses_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="course"/>
-        
+                                 constraintName="FKin0xwnb9o7ab6b9sncwqqf0vv"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="number"
+                                 referencedTableName="teacher"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="courses_code,courses_specialization"
+                                 baseTableName="teacher_courses"
+                                 constraintName="FKn9vjrrq2vsadhcj3osab650v9"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="code,specialization"
+                                 referencedTableName="course"
+                                 validate="true"/>
+
+
     </changeSet>
 </databaseChangeLog>

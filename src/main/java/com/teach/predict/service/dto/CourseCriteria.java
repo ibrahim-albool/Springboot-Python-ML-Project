@@ -62,8 +62,6 @@ public class CourseCriteria implements Serializable, Criteria {
 
     private static final long serialVersionUID = 1L;
 
-    private LongFilter id;
-
     private StringFilter code;
 
     private SpecializationFilter specialization;
@@ -80,7 +78,6 @@ public class CourseCriteria implements Serializable, Criteria {
     }
 
     public CourseCriteria(CourseCriteria other) {
-        this.id = other.id == null ? null : other.id.copy();
         this.code = other.code == null ? null : other.code.copy();
         this.specialization = other.specialization == null ? null : other.specialization.copy();
         this.name = other.name == null ? null : other.name.copy();
@@ -92,14 +89,6 @@ public class CourseCriteria implements Serializable, Criteria {
     @Override
     public CourseCriteria copy() {
         return new CourseCriteria(this);
-    }
-
-    public LongFilter getId() {
-        return id;
-    }
-
-    public void setId(LongFilter id) {
-        this.id = id;
     }
 
     public StringFilter getCode() {
@@ -161,7 +150,6 @@ public class CourseCriteria implements Serializable, Criteria {
         }
         final CourseCriteria that = (CourseCriteria) o;
         return
-            Objects.equals(id, that.id) &&
             Objects.equals(code, that.code) &&
             Objects.equals(specialization, that.specialization) &&
             Objects.equals(name, that.name) &&
@@ -173,7 +161,6 @@ public class CourseCriteria implements Serializable, Criteria {
     @Override
     public int hashCode() {
         return Objects.hash(
-        id,
         code,
         specialization,
         name,
@@ -187,7 +174,6 @@ public class CourseCriteria implements Serializable, Criteria {
     @Override
     public String toString() {
         return "CourseCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
                 (code != null ? "code=" + code + ", " : "") +
                 (specialization != null ? "specialization=" + specialization + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +

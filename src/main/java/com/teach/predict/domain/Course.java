@@ -19,18 +19,17 @@ import com.teach.predict.domain.enumeration.Type;
  */
 @Entity
 @Table(name = "course")
+@IdClass(CoursePK.class)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "code")
     private String code;
 
+    @Id
     @Enumerated(EnumType.STRING)
     @Column(name = "specialization")
     private Specialization specialization;
@@ -51,13 +50,6 @@ public class Course implements Serializable {
     private Set<Teacher> teachers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -158,7 +150,8 @@ public class Course implements Serializable {
         if (!(o instanceof Course)) {
             return false;
         }
-        return id != null && id.equals(((Course) o).id);
+        return code != null && specialization != null && code.equals(((Course) o).code)
+            && specialization.equals(((Course) o).specialization);
     }
 
     @Override
@@ -170,8 +163,7 @@ public class Course implements Serializable {
     @Override
     public String toString() {
         return "Course{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
+            "code='" + getCode() + "'" +
             ", specialization='" + getSpecialization() + "'" +
             ", name='" + getName() + "'" +
             ", type='" + getType() + "'" +

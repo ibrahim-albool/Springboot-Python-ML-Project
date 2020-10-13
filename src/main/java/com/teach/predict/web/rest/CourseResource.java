@@ -58,12 +58,9 @@ public class CourseResource {
     @PostMapping("/courses")
     public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO courseDTO) throws URISyntaxException {
         log.debug("REST request to save Course : {}", courseDTO);
-        if (courseDTO.getId() != null) {
-            throw new BadRequestAlertException("A new course cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         CourseDTO result = courseService.save(courseDTO);
-        return ResponseEntity.created(new URI("/api/courses/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/courses/" + result.getCode()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getCode()))
             .body(result);
     }
 
@@ -79,12 +76,12 @@ public class CourseResource {
     @PutMapping("/courses")
     public ResponseEntity<CourseDTO> updateCourse(@RequestBody CourseDTO courseDTO) throws URISyntaxException {
         log.debug("REST request to update Course : {}", courseDTO);
-        if (courseDTO.getId() == null) {
+        if (courseDTO.getCode() == null || courseDTO.getSpecialization() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, courseDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, courseDTO.getCode()))
             .body(result);
     }
 

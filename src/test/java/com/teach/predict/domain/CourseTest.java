@@ -10,13 +10,13 @@ public class CourseTest {
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Course.class);
         Course course1 = new Course();
-        course1.setId(1L);
+        course1.setCode("1L");
         Course course2 = new Course();
-        course2.setId(course1.getId());
+        course2.setCode(course1.getCode());
         assertThat(course1).isEqualTo(course2);
-        course2.setId(2L);
+        course2.setCode("2L");
         assertThat(course1).isNotEqualTo(course2);
-        course1.setId(null);
+        course1.setCode(null);
         assertThat(course1).isNotEqualTo(course2);
     }
 }

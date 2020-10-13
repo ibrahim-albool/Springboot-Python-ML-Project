@@ -88,9 +88,6 @@ public class CourseQueryService extends QueryService<Course> {
     protected Specification<Course> createSpecification(CourseCriteria criteria) {
         Specification<Course> specification = Specification.where(null);
         if (criteria != null) {
-            if (criteria.getId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getId(), Course_.id));
-            }
             if (criteria.getCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCode(), Course_.code));
             }

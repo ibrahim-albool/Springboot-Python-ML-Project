@@ -91,7 +91,6 @@ public class TeacherCriteria implements Serializable, Criteria {
 
     private BooleanFilter isPredicted;
 
-    private LongFilter coursesId;
 
     public TeacherCriteria() {
     }
@@ -105,7 +104,6 @@ public class TeacherCriteria implements Serializable, Criteria {
         this.stage = other.stage == null ? null : other.stage.copy();
         this.sumOfHours = other.sumOfHours == null ? null : other.sumOfHours.copy();
         this.isPredicted = other.isPredicted == null ? null : other.isPredicted.copy();
-        this.coursesId = other.coursesId == null ? null : other.coursesId.copy();
     }
 
     @Override
@@ -169,14 +167,6 @@ public class TeacherCriteria implements Serializable, Criteria {
         this.isPredicted = isPredicted;
     }
 
-    public LongFilter getCoursesId() {
-        return coursesId;
-    }
-
-    public void setCoursesId(LongFilter coursesId) {
-        this.coursesId = coursesId;
-    }
-
     public InstantFilter getCreationDate() {
         return creationDate;
     }
@@ -202,8 +192,7 @@ public class TeacherCriteria implements Serializable, Criteria {
                 Objects.equals(stage, that.stage) &&
                 Objects.equals(sumOfHours, that.sumOfHours) &&
                 Objects.equals(isPredicted, that.isPredicted) &&
-                Objects.equals(creationDate, that.creationDate) &&
-                Objects.equals(coursesId, that.coursesId);
+                Objects.equals(creationDate, that.creationDate);
     }
 
     @Override
@@ -216,8 +205,7 @@ public class TeacherCriteria implements Serializable, Criteria {
         stage,
         sumOfHours,
         isPredicted,
-        creationDate,
-        coursesId
+        creationDate
         );
     }
 
@@ -232,7 +220,6 @@ public class TeacherCriteria implements Serializable, Criteria {
                 (stage != null ? "stage=" + stage + ", " : "") +
                 (sumOfHours != null ? "sumOfHours=" + sumOfHours + ", " : "") +
                 (isPredicted != null ? "isPredicted=" + isPredicted + ", " : "") +
-                (coursesId != null ? "coursesId=" + coursesId + ", " : "") +
             "}";
     }
 

@@ -15,8 +15,8 @@ public class CourseMapperTest {
 
     @Test
     public void testEntityFromId() {
-        Long id = 1L;
-        assertThat(courseMapper.fromId(id).getId()).isEqualTo(id);
-        assertThat(courseMapper.fromId(null)).isNull();
+        String code = "1L";
+        assertThat(courseMapper.fromCode(code).getCode()).isEqualTo(code);
+        assertThat(courseMapper.fromCode(null)).isNull();
     }
 }

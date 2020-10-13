@@ -44,17 +44,20 @@
     <changeSet id="20201012230057-1-relations" author="jhipster">
 
         <createTable tableName="teacher_courses">
-            <column name="courses_id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="teacher_number" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="teacher_id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="courses_code" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="courses_specialization" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="teacher_id, courses_id" tableName="teacher_courses"/>
-
     </changeSet>
+
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

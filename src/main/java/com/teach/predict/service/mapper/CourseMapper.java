@@ -17,12 +17,12 @@ public interface CourseMapper extends EntityMapper<CourseDTO, Course> {
     @Mapping(target = "removeTeachers", ignore = true)
     Course toEntity(CourseDTO courseDTO);
 
-    default Course fromId(Long id) {
-        if (id == null) {
+    default Course fromCode(String code) {
+        if (code == null) {
             return null;
         }
         Course course = new Course();
-        course.setId(id);
+        course.setCode(code);
         return course;
     }
 }

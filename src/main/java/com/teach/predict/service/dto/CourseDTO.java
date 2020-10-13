@@ -1,6 +1,8 @@
 package com.teach.predict.service.dto;
 
 import java.io.Serializable;
+
+import com.teach.predict.domain.Course;
 import com.teach.predict.domain.enumeration.Specialization;
 import com.teach.predict.domain.enumeration.Type;
 
@@ -8,8 +10,6 @@ import com.teach.predict.domain.enumeration.Type;
  * A DTO for the {@link com.teach.predict.domain.Course} entity.
  */
 public class CourseDTO implements Serializable {
-    
-    private Long id;
 
     private String code;
 
@@ -21,14 +21,6 @@ public class CourseDTO implements Serializable {
 
     private Integer hours;
 
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -79,7 +71,8 @@ public class CourseDTO implements Serializable {
             return false;
         }
 
-        return id != null && id.equals(((CourseDTO) o).id);
+        return code != null && specialization != null && code.equals(((CourseDTO) o).code)
+            && specialization.equals(((CourseDTO) o).specialization);
     }
 
     @Override
@@ -91,8 +84,7 @@ public class CourseDTO implements Serializable {
     @Override
     public String toString() {
         return "CourseDTO{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
+            "code='" + getCode() + "'" +
             ", specialization='" + getSpecialization() + "'" +
             ", name='" + getName() + "'" +
             ", type='" + getType() + "'" +

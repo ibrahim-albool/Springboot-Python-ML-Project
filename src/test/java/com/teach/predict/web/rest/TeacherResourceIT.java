@@ -794,13 +794,13 @@ public class TeacherResourceIT {
         em.flush();
         teacher.addCourses(courses);
         teacherRepository.saveAndFlush(teacher);
-        Long coursesId = courses.getId();
+        String coursesCode = courses.getCode();
 
-        // Get all the teacherList where courses equals to coursesId
-        defaultTeacherShouldBeFound("coursesId.equals=" + coursesId);
+        // Get all the teacherList where courses equals to coursesCode
+        defaultTeacherShouldBeFound("coursesCode.equals=" + coursesCode);
 
-        // Get all the teacherList where courses equals to coursesId + 1
-        defaultTeacherShouldNotBeFound("coursesId.equals=" + (coursesId + 1));
+        // Get all the teacherList where courses equals to coursesCode + 1
+        defaultTeacherShouldNotBeFound("coursesCode.equals=" + (coursesCode + 1));
     }
 
     /**

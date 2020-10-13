@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.criteria.JoinType;
 
+import io.github.jhipster.service.filter.LongFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -50,7 +51,11 @@ public class TeacherQueryService extends QueryService<Teacher> {
     @Transactional(readOnly = true)
     public List<TeacherDTO> findByCriteria(TeacherCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
+        setDefaultCriteria(criteria);
         final Specification<Teacher> specification = createSpecification(criteria);
+        if (specification == null) {
+            return null;
+        }
         return teacherMapper.toDto(teacherRepository.findAll(specification));
     }
 
@@ -63,7 +68,11 @@ public class TeacherQueryService extends QueryService<Teacher> {
     @Transactional(readOnly = true)
     public Page<TeacherDTO> findByCriteria(TeacherCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
+        setDefaultCriteria(criteria);
         final Specification<Teacher> specification = createSpecification(criteria);
+        if (specification == null) {
+            return null;
+        }
         return teacherRepository.findAll(specification, page)
             .map(teacherMapper::toDto);
     }
@@ -76,8 +85,17 @@ public class TeacherQueryService extends QueryService<Teacher> {
     @Transactional(readOnly = true)
     public long countByCriteria(TeacherCriteria criteria) {
         log.debug("count by criteria : {}", criteria);
+        setDefaultCriteria(criteria);
         final Specification<Teacher> specification = createSpecification(criteria);
         return teacherRepository.count(specification);
+    }
+
+    private void setDefaultCriteria(TeacherCriteria criteria) {
+        if (criteria.getNumber() == null) {
+            LongFilter numberFilter = new LongFilter();
+            numberFilter.setGreaterThanOrEqual(Long.valueOf(0));
+            criteria.setNumber(numberFilter);
+        }
     }
 
     /**
@@ -88,9 +106,6 @@ public class TeacherQueryService extends QueryService<Teacher> {
     protected Specification<Teacher> createSpecification(TeacherCriteria criteria) {
         Specification<Teacher> specification = Specification.where(null);
         if (criteria != null) {
-            if (criteria.getNumber() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNumber(), Teacher_.number));
-            }
             if (criteria.getNumber() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumber(), Teacher_.number));
             }
@@ -112,10 +127,10 @@ public class TeacherQueryService extends QueryService<Teacher> {
             if (criteria.getIsPredicted() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsPredicted(), Teacher_.isPredicted));
             }
-            if (criteria.getCoursesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCoursesId(),
-                    root -> root.join(Teacher_.courses, JoinType.LEFT).get(Course_.id)));
-            }
+//            if (criteria.getCourseCode()!= null) {
+//                specification = specification.and(buildSpecification(criteria.getCoursesId(),
+//                    root -> root.join(Teacher_.courses, JoinType.LEFT).get(Course_.code)));
+//            }
         }
         return specification;
     }
