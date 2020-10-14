@@ -58,8 +58,8 @@ public class TeacherResource {
     @PostMapping("/teachers")
     public ResponseEntity<TeacherDTO> createTeacher(@RequestBody TeacherDTO teacherDTO) throws URISyntaxException {
         log.debug("REST request to save Teacher : {}", teacherDTO);
-        if (teacherDTO.getNumber() != null) {
-            throw new BadRequestAlertException("A new teacher cannot already have an ID", ENTITY_NAME, "idexists");
+        if (teacherDTO.getNumber() == null) {
+            throw new BadRequestAlertException("A new teacher must have an ID", ENTITY_NAME, "idexists");
         }
         TeacherDTO result = teacherService.save(teacherDTO);
         return ResponseEntity.created(new URI("/api/teachers/" + result.getNumber()))
