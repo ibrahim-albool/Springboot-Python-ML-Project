@@ -1,0 +1,11 @@
+number;specialization;evaluation;qualification;stage;sum_of_hours;creation_date;is_predicted
+66655;Science;64787;Diploma;Primary;67507;2020-10-12 00:00:00;false
+71747;Arabic;4785;PhD;Primary;5574;2020-10-12 00:00:00;false
+93119;Science;16244;Master;Primary;31935;2020-10-12 00:00:00;true
+76406;Arabic;43712;Master;Primary;58906;2020-10-12 00:00:00;false
+49206;Math;67094;Master;Secondary;63002;2020-10-12 00:00:00;true
+57563;Math;75622;Bachelor;Secondary;68424;2020-10-12 00:00:00;true
+12269;Math;2016;Bachelor;Primary;54064;2020-10-12 00:00:00;true
+54516;Science;9309;Bachelor;Primary;98796;2020-10-12 00:00:00;false
+32592;Math;47498;Master;Primary;81459;2020-10-12 00:00:00;false
+49501;Science;11628;Master;Secondary;60620;2020-10-12 00:00:00;true
