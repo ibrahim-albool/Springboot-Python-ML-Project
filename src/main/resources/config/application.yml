@@ -167,3 +167,6 @@ jhipster:
 # ===================================================================
 
 # application:
+
+mLServiceConfig:
+  mlServiceUrl: "http://localhost:5000"
