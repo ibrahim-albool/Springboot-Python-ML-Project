@@ -3,7 +3,7 @@ entity Teacher {
  specialization Specialization,
  evaluation Integer,
  qualification Qualification,
- stage Stage, 
+ stage Stage,
  sumOfHours Integer,
  isPredicted Boolean
 
@@ -14,17 +14,17 @@ entity Course {
     specialization Specialization,
     name String,
     type Type,
-    hours Integer 
+    hours Integer
 }
 
 entity MLModel {
-	tp Float, 
+	tp Float,
     tn Float,
-    fp Float, 
-    fn Float, 
-    accuracy Float, 
-    precision Float, 
-    recall Float 
+    fp Float,
+    fn Float,
+    accuracy Float,
+    precision Float,
+    recall Float
 }
 
 enum Specialization {
@@ -36,7 +36,7 @@ enum Qualification {
 }
 
 enum Stage {
-	Priamry, Secondary
+	Primary, Secondary
 }
 
 enum Type {

@@ -1,5 +1,5 @@
 export const enum Stage {
-  Priamry = 'Priamry',
+  Primary = 'Primary',
 
   Secondary = 'Secondary',
 }

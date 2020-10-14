@@ -22,7 +22,7 @@
     {
       "fieldName": "stage",
       "fieldType": "Stage",
-      "fieldValues": "Priamry,Secondary"
+      "fieldValues": "Primary,Secondary"
     },
     {
       "fieldName": "sumOfHours",

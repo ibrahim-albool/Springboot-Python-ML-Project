@@ -60,7 +60,7 @@ public class TeacherResourceIT {
     private static final Qualification DEFAULT_QUALIFICATION = Qualification.Diploma;
     private static final Qualification UPDATED_QUALIFICATION = Qualification.Bachelor;
 
-    private static final Stage DEFAULT_STAGE = Stage.Priamry;
+    private static final Stage DEFAULT_STAGE = Stage.Primary;
     private static final Stage UPDATED_STAGE = Stage.Secondary;
 
     private static final Integer DEFAULT_SUM_OF_HOURS = 1;
