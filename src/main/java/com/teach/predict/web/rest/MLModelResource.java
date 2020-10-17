@@ -1,5 +1,6 @@
 package com.teach.predict.web.rest;
 
+import com.teach.predict.security.AuthoritiesConstants;
 import com.teach.predict.service.MLModelService;
 import com.teach.predict.service.MLPythonService;
 import com.teach.predict.service.TeacherService;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -152,6 +154,7 @@ public class MLModelResource {
      * @throws URISyntaxException
      */
     @PostMapping("/trainMLModel")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity trainMLModel(@RequestParam String trainingFile, @RequestParam String labelsFile) throws URISyntaxException {
         log.debug("REST request to train the MLModel.");
         Optional<String> res = mlPythonService.trainMLModel(trainingFile, labelsFile);
@@ -162,6 +165,7 @@ public class MLModelResource {
     }
 
     @PostMapping("/predictData")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<String> predictXNew(@RequestParam String newDataFile) {
         log.debug("REST request the model teachers");
         Optional<String> res = mlPythonService.predictXNew(newDataFile);
@@ -185,6 +189,7 @@ public class MLModelResource {
     }
 
     @DeleteMapping("/deleteModelAndTeachers")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<String> deleteModelAndTeachers() {
         log.debug("REST request the model metrics");
         mLModelService.deleteAll();
