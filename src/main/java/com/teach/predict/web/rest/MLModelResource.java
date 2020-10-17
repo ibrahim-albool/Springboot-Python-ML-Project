@@ -155,7 +155,7 @@ public class MLModelResource {
     public ResponseEntity trainMLModel(@RequestParam String trainingFile, @RequestParam String labelsFile) throws URISyntaxException {
         log.debug("REST request to train the MLModel.");
         Optional<String> res = mlPythonService.trainMLModel(trainingFile, labelsFile);
-        if(res.isEmpty()){
+        if(!res.isPresent()){
             return ResponseEntity.status(404).body("Model is already trained");
         }
         return ResponseEntity.ok(res.get());
