@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { VERSION } from 'app/app.constants';
 import { AccountService } from 'app/core/auth/account.service';
-import { LoginModalService } from 'app/core/login/login-modal.service';
 import { LoginService } from 'app/core/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 
@@ -21,7 +20,6 @@ export class NavbarComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
-    private loginModalService: LoginModalService,
     private profileService: ProfileService,
     private router: Router
   ) {
@@ -41,10 +39,6 @@ export class NavbarComponent implements OnInit {
 
   isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();
-  }
-
-  login(): void {
-    this.loginModalService.open();
   }
 
   logout(): void {
