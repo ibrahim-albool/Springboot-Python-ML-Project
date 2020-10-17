@@ -1,0 +1,1 @@
+activate tfv2-cpu & python main.py
