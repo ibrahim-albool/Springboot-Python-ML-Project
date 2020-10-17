@@ -3,10 +3,10 @@ import { Route } from '@angular/router';
 import { HomeComponent } from './home.component';
 
 export const HOME_ROUTE: Route = {
-  path: '',
+  path: 'home',
   component: HomeComponent,
   data: {
     authorities: [],
-    pageTitle: 'Welcome, Java Hipster!',
+    pageTitle: 'Welcome to Teacher Predictor!',
   },
 };
