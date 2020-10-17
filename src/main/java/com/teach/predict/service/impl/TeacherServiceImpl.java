@@ -13,7 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Teacher}.
@@ -66,5 +69,20 @@ public class TeacherServiceImpl implements TeacherService {
     public void delete(Long id) {
         log.debug("Request to delete Teacher : {}", id);
         teacherRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        teacherRepository.deleteAllInBatch();
+    }
+
+    @Override
+    public long count() {
+        return teacherRepository.count();
+    }
+
+    @Override
+    public void saveAll(List<TeacherDTO> teacherDTOs) {
+        teacherRepository.saveAll(teacherDTOs.stream().map(teacherMapper::toEntity).collect(Collectors.toList()));
     }
 }

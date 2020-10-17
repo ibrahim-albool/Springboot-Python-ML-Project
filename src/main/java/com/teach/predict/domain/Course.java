@@ -27,7 +27,7 @@ public class Course implements Serializable {
 
     @Id
     @Column(name = "code")
-    private String code;
+    private Long code;
 
     @Id
     @Enumerated(EnumType.STRING)
@@ -51,16 +51,16 @@ public class Course implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public Course code(String code) {
+    public Course code(Long code) {
         this.code = code;
         return this;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 

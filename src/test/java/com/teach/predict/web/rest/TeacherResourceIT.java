@@ -794,7 +794,7 @@ public class TeacherResourceIT {
         em.flush();
         teacher.addCourses(courses);
         teacherRepository.saveAndFlush(teacher);
-        String coursesCode = courses.getCode();
+        Long coursesCode = courses.getCode();
 
         // Get all the teacherList where courses equals to coursesCode
         defaultTeacherShouldBeFound("coursesCode.equals=" + coursesCode);

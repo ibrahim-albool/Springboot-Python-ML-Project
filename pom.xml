@@ -347,7 +347,7 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId><configuration><source>11</source><target>11</target></configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -650,7 +650,7 @@
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                         <driver>com.mysql.cj.jdbc.Driver</driver>
-                        <url>jdbc:mysql://localhost:3306/teachPredictor</url>
+                        <url>jdbc:mysql://localhost:3306/teachPredictor?serverTimezone=UTC</url>
                         <defaultSchemaName>teachPredictor</defaultSchemaName>
                         <username>root</username>
                         <password>root</password>
