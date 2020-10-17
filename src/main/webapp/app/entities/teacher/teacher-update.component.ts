@@ -102,13 +102,13 @@ export class TeacherUpdateComponent implements OnInit {
   }
 
   trackById(index: number, item: ICourse): any {
-    return item.id;
+    return item.code;
   }
 
   getSelected(selectedVals: ICourse[], option: ICourse): ICourse {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
+        if (option.code === selectedVals[i].code && option.specialization === selectedVals[i].specialization) {
           return selectedVals[i];
         }
       }

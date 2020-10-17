@@ -1,9 +1,11 @@
 package com.teach.predict.service;
 
+import com.teach.predict.domain.enumeration.Specialization;
 import com.teach.predict.service.dto.CourseDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -30,17 +32,17 @@ public interface CourseService {
 
 
     /**
-     * Get the "id" course.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param code
+     * @param specialization
+     * @return
      */
-    Optional<CourseDTO> findOne(Long id);
+    Optional<CourseDTO> findOne(Long code, Specialization specialization);
 
     /**
-     * Delete the "id" course.
      *
-     * @param id the id of the entity.
+     * @param code
+     * @param specialization
      */
-    void delete(Long id);
+    void delete(Long code, Specialization specialization);
 }

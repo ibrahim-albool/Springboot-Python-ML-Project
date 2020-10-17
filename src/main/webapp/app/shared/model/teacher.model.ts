@@ -12,6 +12,7 @@ export interface ITeacher {
   sumOfHours?: number;
   isPredicted?: boolean;
   courses?: ICourse[];
+  creationDate?: Date;
 }
 
 export class Teacher implements ITeacher {
@@ -23,7 +24,8 @@ export class Teacher implements ITeacher {
     public stage?: Stage,
     public sumOfHours?: number,
     public isPredicted?: boolean,
-    public courses?: ICourse[]
+    public courses?: ICourse[],
+    public creationDate?: Date
   ) {
     this.isPredicted = this.isPredicted || false;
   }

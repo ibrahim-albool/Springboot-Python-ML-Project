@@ -1,5 +1,6 @@
 package com.teach.predict.service.impl;
 
+import com.teach.predict.domain.enumeration.Specialization;
 import com.teach.predict.service.CourseService;
 import com.teach.predict.domain.Course;
 import com.teach.predict.repository.CourseRepository;
@@ -52,15 +53,15 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CourseDTO> findOne(Long id) {
-        log.debug("Request to get Course : {}", id);
-        return courseRepository.findById(id)
+    public Optional<CourseDTO> findOne(Long code, Specialization specialization) {
+        log.debug("Request to get Course : {}", code);
+        return courseRepository.findByCodeAndSpecialization(code,specialization)
             .map(courseMapper::toDto);
     }
 
     @Override
-    public void delete(Long id) {
-        log.debug("Request to delete Course : {}", id);
-        courseRepository.deleteById(id);
+    public void delete(Long code, Specialization specialization) {
+        log.debug("Request to delete Course : {}", code);
+        courseRepository.deleteByCodeAndSpecialization(code, specialization);
     }
 }

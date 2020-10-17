@@ -188,10 +188,9 @@ public class TeacherResourceIT {
         teacherRepository.saveAndFlush(teacher);
 
         // Get all the teacherList
-        restTeacherMockMvc.perform(get("/api/teachers?sort=id,desc"))
+        restTeacherMockMvc.perform(get("/api/teachers?sort=number,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(teacher.getNumber().intValue())))
             .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER.intValue())))
             .andExpect(jsonPath("$.[*].specialization").value(hasItem(DEFAULT_SPECIALIZATION.toString())))
             .andExpect(jsonPath("$.[*].evaluation").value(hasItem(DEFAULT_EVALUATION)))
@@ -231,7 +230,6 @@ public class TeacherResourceIT {
         restTeacherMockMvc.perform(get("/api/teachers/{id}", teacher.getNumber()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(teacher.getNumber().intValue()))
             .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER.intValue()))
             .andExpect(jsonPath("$.specialization").value(DEFAULT_SPECIALIZATION.toString()))
             .andExpect(jsonPath("$.evaluation").value(DEFAULT_EVALUATION))
@@ -244,20 +242,20 @@ public class TeacherResourceIT {
 
     @Test
     @Transactional
-    public void getTeachersByIdFiltering() throws Exception {
+    public void getTeachersByNumberFiltering() throws Exception {
         // Initialize the database
         teacherRepository.saveAndFlush(teacher);
 
-        Long id = teacher.getNumber();
+        Long number = teacher.getNumber();
 
-        defaultTeacherShouldBeFound("id.equals=" + id);
-        defaultTeacherShouldNotBeFound("id.notEquals=" + id);
+        defaultTeacherShouldBeFound("number.equals=" + number);
+        defaultTeacherShouldNotBeFound("number.notEquals=" + number);
 
-        defaultTeacherShouldBeFound("id.greaterThanOrEqual=" + id);
-        defaultTeacherShouldNotBeFound("id.greaterThan=" + id);
+        defaultTeacherShouldBeFound("number.greaterThanOrEqual=" + number);
+        defaultTeacherShouldNotBeFound("number.greaterThan=" + number);
 
-        defaultTeacherShouldBeFound("id.lessThanOrEqual=" + id);
-        defaultTeacherShouldNotBeFound("id.lessThan=" + id);
+        defaultTeacherShouldBeFound("number.lessThanOrEqual=" + number);
+        defaultTeacherShouldNotBeFound("number.lessThan=" + number);
     }
 
 
@@ -807,10 +805,9 @@ public class TeacherResourceIT {
      * Executes the search, and checks that the default entity is returned.
      */
     private void defaultTeacherShouldBeFound(String filter) throws Exception {
-        restTeacherMockMvc.perform(get("/api/teachers?sort=id,desc&" + filter))
+        restTeacherMockMvc.perform(get("/api/teachers?sort=number,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(teacher.getNumber().intValue())))
             .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER.intValue())))
             .andExpect(jsonPath("$.[*].specialization").value(hasItem(DEFAULT_SPECIALIZATION.toString())))
             .andExpect(jsonPath("$.[*].evaluation").value(hasItem(DEFAULT_EVALUATION)))
@@ -820,7 +817,7 @@ public class TeacherResourceIT {
             .andExpect(jsonPath("$.[*].isPredicted").value(hasItem(DEFAULT_IS_PREDICTED.booleanValue())));
 
         // Check, that the count call also returns 1
-        restTeacherMockMvc.perform(get("/api/teachers/count?sort=id,desc&" + filter))
+        restTeacherMockMvc.perform(get("/api/teachers/count?sort=number,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
@@ -830,14 +827,14 @@ public class TeacherResourceIT {
      * Executes the search, and checks that the default entity is not returned.
      */
     private void defaultTeacherShouldNotBeFound(String filter) throws Exception {
-        restTeacherMockMvc.perform(get("/api/teachers?sort=id,desc&" + filter))
+        restTeacherMockMvc.perform(get("/api/teachers?sort=number,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
-        restTeacherMockMvc.perform(get("/api/teachers/count?sort=id,desc&" + filter))
+        restTeacherMockMvc.perform(get("/api/teachers/count?sort=number,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));

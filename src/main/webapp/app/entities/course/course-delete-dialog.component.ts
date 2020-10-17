@@ -4,6 +4,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { ICourse } from 'app/shared/model/course.model';
 import { CourseService } from './course.service';
+import { Specialization } from 'app/shared/model/enumerations/specialization.model';
 
 @Component({
   templateUrl: './course-delete-dialog.component.html',
@@ -17,8 +18,8 @@ export class CourseDeleteDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number): void {
-    this.courseService.delete(id).subscribe(() => {
+  confirmDelete(code: number, specialization: Specialization): void {
+    this.courseService.delete(code,specialization).subscribe(() => {
       this.eventManager.broadcast('courseListModification');
       this.activeModal.close();
     });
