@@ -17,7 +17,6 @@
     <include file="config/liquibase/changelog/20201012230057_added_entity_Teacher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201012230157_added_entity_Course.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201012230257_added_entity_MLModel.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20201017004613_added_entity_EntityAuditEvent.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20201012230057_added_entity_constraints_Teacher.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
