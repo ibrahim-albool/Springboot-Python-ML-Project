@@ -4,7 +4,6 @@ import com.teach.predict.service.MLModelService;
 import com.teach.predict.service.MLPythonService;
 import com.teach.predict.service.TeacherService;
 import com.teach.predict.service.dto.HistoryDTO;
-import com.teach.predict.service.dto.TeacherDTO;
 import com.teach.predict.web.rest.errors.BadRequestAlertException;
 import com.teach.predict.service.dto.MLModelDTO;
 import com.teach.predict.service.dto.MLModelCriteria;
@@ -71,8 +70,6 @@ public class MLModelResource {
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
-
-
 
     /**
      * {@code PUT  /ml-models} : Updates an existing mLModel.
