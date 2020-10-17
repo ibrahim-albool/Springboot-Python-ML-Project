@@ -4,7 +4,6 @@ import { Qualification } from 'app/shared/model/enumerations/qualification.model
 import { Stage } from 'app/shared/model/enumerations/stage.model';
 
 export interface ITeacher {
-  id?: number;
   number?: number;
   specialization?: Specialization;
   evaluation?: number;
@@ -17,7 +16,6 @@ export interface ITeacher {
 
 export class Teacher implements ITeacher {
   constructor(
-    public id?: number,
     public number?: number,
     public specialization?: Specialization,
     public evaluation?: number,

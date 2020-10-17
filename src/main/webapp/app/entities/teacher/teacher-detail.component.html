@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="teacher">
-            <h2><span>Teacher</span> {{ teacher.id }}</h2>
+            <h2><span>Teacher</span> {{ teacher.number }}</h2>
 
             <hr>
 
@@ -51,7 +51,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/teacher', teacher.id, 'edit']"
+                    [routerLink]="['/teacher', teacher.number, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

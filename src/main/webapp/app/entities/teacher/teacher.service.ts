@@ -23,8 +23,8 @@ export class TeacherService {
     return this.http.put<ITeacher>(this.resourceUrl, teacher, { observe: 'response' });
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<ITeacher>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  find(number: number): Observable<EntityResponseType> {
+    return this.http.get<ITeacher>(`${this.resourceUrl}/${number}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
@@ -32,7 +32,7 @@ export class TeacherService {
     return this.http.get<ITeacher[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  delete(number: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${number}`, { observe: 'response' });
   }
 }
