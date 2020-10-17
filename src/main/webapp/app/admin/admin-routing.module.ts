@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-/* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
+import { HomeComponent } from '../home/home.component';
 
 @NgModule({
   imports: [
-    /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     RouterModule.forChild([
+      {
+        path: '',
+        component: HomeComponent,
+      },
       {
         path: 'user-management',
         loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
@@ -13,31 +16,6 @@ import { RouterModule } from '@angular/router';
           pageTitle: 'Users',
         },
       },
-      {
-        path: 'audits',
-        loadChildren: () => import('./audits/audits.module').then(m => m.AuditsModule),
-      },
-      {
-        path: 'configuration',
-        loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule),
-      },
-      {
-        path: 'docs',
-        loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule),
-      },
-      {
-        path: 'health',
-        loadChildren: () => import('./health/health.module').then(m => m.HealthModule),
-      },
-      {
-        path: 'logs',
-        loadChildren: () => import('./logs/logs.module').then(m => m.LogsModule),
-      },
-      {
-        path: 'metrics',
-        loadChildren: () => import('./metrics/metrics.module').then(m => m.MetricsModule),
-      },
-      /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
     ]),
   ],
 })
