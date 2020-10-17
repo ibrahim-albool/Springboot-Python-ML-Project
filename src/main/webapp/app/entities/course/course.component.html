@@ -1,13 +1,6 @@
 <div>
     <h2 id="page-heading">
         <span>Courses</span>
-
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-course" [routerLink]="['/course/new']">
-            <fa-icon icon="plus"></fa-icon>
-            <span>
-            Create a new Course
-            </span>
-        </button>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
@@ -22,7 +15,6 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="code"><span>Code</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="specialization"><span>Specialization</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
@@ -33,35 +25,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let course of courses ;trackBy: trackId">
-                    <td><a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a></td>
                     <td>{{ course.code }}</td>
                     <td>{{ course.specialization }}</td>
                     <td>{{ course.name }}</td>
                     <td>{{ course.type }}</td>
                     <td>{{ course.hours }}</td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/course', course.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
-
-                            <button type="submit"
-                                    [routerLink]="['/course', course.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
-
-                            <button type="submit" (click)="delete(course)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                        </div>
-                    </td>
                 </tr>
             </tbody>
         </table>

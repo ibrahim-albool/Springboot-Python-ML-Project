@@ -17,9 +17,10 @@ export class CourseResolve implements Resolve<ICourse> {
   constructor(private service: CourseService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ICourse> | Observable<never> {
-    const id = route.params['id'];
-    if (id) {
-      return this.service.find(id).pipe(
+    const code = route.params['code'];
+    const specialization = route.params['specialization'];
+    if (code && specialization) {
+      return this.service.find(code,specialization).pipe(
         flatMap((course: HttpResponse<Course>) => {
           if (course.body) {
             return of(course.body);
@@ -40,13 +41,13 @@ export const courseRoute: Routes = [
     component: CourseComponent,
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'code,asc',
       pageTitle: 'Courses',
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':code/:specialization/view',
     component: CourseDetailComponent,
     resolve: {
       course: CourseResolve,
@@ -70,7 +71,7 @@ export const courseRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
+    path: ':code/:specialization/edit',
     component: CourseUpdateComponent,
     resolve: {
       course: CourseResolve,

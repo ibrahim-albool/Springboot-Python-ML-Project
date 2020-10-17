@@ -23,13 +23,13 @@ describe('Component Tests', () => {
             provide: ActivatedRoute,
             useValue: {
               data: of({
-                defaultSort: 'id,asc',
+                defaultSort: 'code,asc',
               }),
               queryParamMap: of(
                 convertToParamMap({
                   page: '1',
                   size: '1',
-                  sort: 'id,desc',
+                  sort: 'code,desc',
                 })
               ),
             },
@@ -50,7 +50,7 @@ describe('Component Tests', () => {
       spyOn(service, 'query').and.returnValue(
         of(
           new HttpResponse({
-            body: [new Course(123)],
+            body: [new Course(123,"Arabic")],
             headers,
           })
         )
@@ -61,7 +61,7 @@ describe('Component Tests', () => {
 
       // THEN
       expect(service.query).toHaveBeenCalled();
-      expect(comp.courses && comp.courses[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.courses && comp.courses[0]).toEqual(jasmine.objectContaining({ code: 123 }));
     });
 
     it('should load a page', () => {
@@ -70,7 +70,7 @@ describe('Component Tests', () => {
       spyOn(service, 'query').and.returnValue(
         of(
           new HttpResponse({
-            body: [new Course(123)],
+            body: [new Course(123,"Arabic")],
             headers,
           })
         )
@@ -81,16 +81,16 @@ describe('Component Tests', () => {
 
       // THEN
       expect(service.query).toHaveBeenCalled();
-      expect(comp.courses && comp.courses[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.courses && comp.courses[0]).toEqual(jasmine.objectContaining({ code: 123 }));
     });
 
-    it('should calculate the sort attribute for an id', () => {
+    it('should calculate the sort attribute for an code', () => {
       // WHEN
       comp.ngOnInit();
       const result = comp.sort();
 
       // THEN
-      expect(result).toEqual(['id,desc']);
+      expect(result).toEqual(['code,desc']);
     });
 
     it('should calculate the sort attribute for a non-id attribute', () => {
@@ -104,7 +104,7 @@ describe('Component Tests', () => {
       const result = comp.sort();
 
       // THEN
-      expect(result).toEqual(['name,desc', 'id']);
+      expect(result).toEqual(['name,desc', 'code']);
     });
   });
 });

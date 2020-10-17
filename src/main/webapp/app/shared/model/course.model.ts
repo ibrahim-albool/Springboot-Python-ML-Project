@@ -3,8 +3,7 @@ import { Specialization } from 'app/shared/model/enumerations/specialization.mod
 import { Type } from 'app/shared/model/enumerations/type.model';
 
 export interface ICourse {
-  id?: number;
-  code?: string;
+  code?: number;
   specialization?: Specialization;
   name?: string;
   type?: Type;
@@ -14,8 +13,7 @@ export interface ICourse {
 
 export class Course implements ICourse {
   constructor(
-    public id?: number,
-    public code?: string,
+    public code?: number,
     public specialization?: Specialization,
     public name?: string,
     public type?: Type,

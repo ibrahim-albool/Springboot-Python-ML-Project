@@ -40,7 +40,7 @@ describe('Service Tests', () => {
       it('should create a Teacher', () => {
         const returnedFromService = Object.assign(
           {
-            id: 0,
+            number: 0,
           },
           elemDefault
         );

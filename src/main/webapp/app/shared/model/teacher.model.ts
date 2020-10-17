@@ -4,7 +4,6 @@ import { Qualification } from 'app/shared/model/enumerations/qualification.model
 import { Stage } from 'app/shared/model/enumerations/stage.model';
 
 export interface ITeacher {
-  id?: number;
   number?: number;
   specialization?: Specialization;
   evaluation?: number;
@@ -13,11 +12,11 @@ export interface ITeacher {
   sumOfHours?: number;
   isPredicted?: boolean;
   courses?: ICourse[];
+  creationDate?: Date;
 }
 
 export class Teacher implements ITeacher {
   constructor(
-    public id?: number,
     public number?: number,
     public specialization?: Specialization,
     public evaluation?: number,
@@ -25,7 +24,8 @@ export class Teacher implements ITeacher {
     public stage?: Stage,
     public sumOfHours?: number,
     public isPredicted?: boolean,
-    public courses?: ICourse[]
+    public courses?: ICourse[],
+    public creationDate?: Date
   ) {
     this.isPredicted = this.isPredicted || false;
   }

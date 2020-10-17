@@ -26,4 +26,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long>, JpaSpec
 
     @Query("select teacher from Teacher teacher left join fetch teacher.courses where teacher.id =:id")
     Optional<Teacher> findOneWithEagerRelationships(@Param("id") Long id);
+
+
 }

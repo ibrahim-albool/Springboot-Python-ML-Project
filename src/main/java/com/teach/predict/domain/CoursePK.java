@@ -11,11 +11,11 @@ import java.util.Objects;
 
 public class CoursePK implements Serializable {
 
-    private String code;
+    private Long code;
 
     private Specialization specialization;
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
@@ -23,7 +23,7 @@ public class CoursePK implements Serializable {
         return specialization;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 

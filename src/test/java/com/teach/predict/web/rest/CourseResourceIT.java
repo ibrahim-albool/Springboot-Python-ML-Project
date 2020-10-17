@@ -37,8 +37,8 @@ import com.teach.predict.domain.enumeration.Type;
 @WithMockUser
 public class CourseResourceIT {
 
-    private static final String DEFAULT_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_CODE = "BBBBBBBBBB";
+    private static final Long DEFAULT_CODE = 11111111L;
+    private static final Long UPDATED_CODE = 222222222L;
 
     private static final Specialization DEFAULT_SPECIALIZATION = Specialization.Arabic;
     private static final Specialization UPDATED_SPECIALIZATION = Specialization.English;
@@ -137,7 +137,7 @@ public class CourseResourceIT {
         int databaseSizeBeforeCreate = courseRepository.findAll().size();
 
         // Create the Course with an existing ID
-        course.setCode("1L");
+        course.setCode(1L);
         CourseDTO courseDTO = courseMapper.toDto(course);
 
         // An entity with an existing ID cannot be created, so this API call must fail
@@ -159,10 +159,9 @@ public class CourseResourceIT {
         courseRepository.saveAndFlush(course);
 
         // Get all the courseList
-        restCourseMockMvc.perform(get("/api/courses?sort=id,desc"))
+        restCourseMockMvc.perform(get("/api/courses?sort=code,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(course.getCode())))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].specialization").value(hasItem(DEFAULT_SPECIALIZATION.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
@@ -177,10 +176,9 @@ public class CourseResourceIT {
         courseRepository.saveAndFlush(course);
 
         // Get the course
-        restCourseMockMvc.perform(get("/api/courses/{id}", course.getCode()))
+        restCourseMockMvc.perform(get("/api/courses/{code}/{specialization}", course.getCode(), course.getSpecialization()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(course.getCode()))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.specialization").value(DEFAULT_SPECIALIZATION.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
@@ -195,7 +193,7 @@ public class CourseResourceIT {
         // Initialize the database
         courseRepository.saveAndFlush(course);
 
-        String code = course.getCode();
+        Long code = course.getCode();
 
         defaultCourseShouldBeFound("code.equals=" + code);
         defaultCourseShouldNotBeFound("code.notEquals=" + code);
@@ -596,10 +594,9 @@ public class CourseResourceIT {
      * Executes the search, and checks that the default entity is returned.
      */
     private void defaultCourseShouldBeFound(String filter) throws Exception {
-        restCourseMockMvc.perform(get("/api/courses?sort=id,desc&" + filter))
+        restCourseMockMvc.perform(get("/api/courses?sort=code,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(course.getCode())))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].specialization").value(hasItem(DEFAULT_SPECIALIZATION.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
@@ -607,7 +604,7 @@ public class CourseResourceIT {
             .andExpect(jsonPath("$.[*].hours").value(hasItem(DEFAULT_HOURS)));
 
         // Check, that the count call also returns 1
-        restCourseMockMvc.perform(get("/api/courses/count?sort=id,desc&" + filter))
+        restCourseMockMvc.perform(get("/api/courses/count?sort=code,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
@@ -617,14 +614,14 @@ public class CourseResourceIT {
      * Executes the search, and checks that the default entity is not returned.
      */
     private void defaultCourseShouldNotBeFound(String filter) throws Exception {
-        restCourseMockMvc.perform(get("/api/courses?sort=id,desc&" + filter))
+        restCourseMockMvc.perform(get("/api/courses?sort=code,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
-        restCourseMockMvc.perform(get("/api/courses/count?sort=id,desc&" + filter))
+        restCourseMockMvc.perform(get("/api/courses/count?sort=code,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
@@ -634,7 +631,7 @@ public class CourseResourceIT {
     @Transactional
     public void getNonExistingCourse() throws Exception {
         // Get the course
-        restCourseMockMvc.perform(get("/api/courses/{id}", Long.MAX_VALUE))
+        restCourseMockMvc.perform(get("/api/courses/{code}/{specialization}", Long.MAX_VALUE, String.valueOf(Long.MAX_VALUE)))
             .andExpect(status().isNotFound());
     }
 
@@ -647,7 +644,7 @@ public class CourseResourceIT {
         int databaseSizeBeforeUpdate = courseRepository.findAll().size();
 
         // Update the course
-        Course updatedCourse = courseRepository.findByCode(course.getCode()).get();
+        Course updatedCourse = courseRepository.findByCodeAndSpecialization(course.getCode(), course.getSpecialization()).get();
         // Disconnect from session so that the updates on updatedCourse are not directly saved in db
         em.detach(updatedCourse);
         updatedCourse
@@ -702,7 +699,7 @@ public class CourseResourceIT {
         int databaseSizeBeforeDelete = courseRepository.findAll().size();
 
         // Delete the course
-        restCourseMockMvc.perform(delete("/api/courses/{id}", course.getCode())
+        restCourseMockMvc.perform(delete("/api/courses/{id}/{specialization}", course.getCode(), course.getSpecialization())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 

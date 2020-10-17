@@ -1,5 +1,6 @@
 package com.teach.predict.web.rest;
 
+import com.teach.predict.domain.enumeration.Specialization;
 import com.teach.predict.service.CourseService;
 import com.teach.predict.web.rest.errors.BadRequestAlertException;
 import com.teach.predict.service.dto.CourseDTO;
@@ -60,7 +61,7 @@ public class CourseResource {
         log.debug("REST request to save Course : {}", courseDTO);
         CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.created(new URI("/api/courses/" + result.getCode()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getCode()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getCode().toString()))
             .body(result);
     }
 
@@ -81,7 +82,7 @@ public class CourseResource {
         }
         CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, courseDTO.getCode()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, courseDTO.getCode().toString()))
             .body(result);
     }
 
@@ -113,28 +114,28 @@ public class CourseResource {
     }
 
     /**
-     * {@code GET  /courses/:id} : get the "id" course.
+     * {@code GET  /courses/:code} : get the "code" course.
      *
-     * @param id the id of the courseDTO to retrieve.
+     * @param code the code of the courseDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the courseDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/courses/{id}")
-    public ResponseEntity<CourseDTO> getCourse(@PathVariable Long id) {
-        log.debug("REST request to get Course : {}", id);
-        Optional<CourseDTO> courseDTO = courseService.findOne(id);
+    @GetMapping("/courses/{code}/{specialization}")
+    public ResponseEntity<CourseDTO> getCourse(@PathVariable Long code,@PathVariable Specialization specialization) {
+        log.debug("REST request to get Course : {}", code);
+        Optional<CourseDTO> courseDTO = courseService.findOne(code,specialization);
         return ResponseUtil.wrapOrNotFound(courseDTO);
     }
 
     /**
-     * {@code DELETE  /courses/:id} : delete the "id" course.
      *
-     * @param id the id of the courseDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     * @param code
+     * @param specialization
+     * @return
      */
-    @DeleteMapping("/courses/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-        log.debug("REST request to delete Course : {}", id);
-        courseService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+    @DeleteMapping("/courses/{code}/{specialization}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long code,@PathVariable Specialization specialization) {
+        log.debug("REST request to delete Course : {}", code);
+        courseService.delete(code,specialization);
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, code.toString())).build();
     }
 }
