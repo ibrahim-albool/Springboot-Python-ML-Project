@@ -4,7 +4,7 @@ import { errorRoute } from './layouts/error/error.route';
 import { navbarRoute } from './layouts/navbar/navbar.route';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/shared/constants/authority.constants';
-
+import { LoginModalComponent } from './shared/login/login.component';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
@@ -13,6 +13,14 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
   imports: [
     RouterModule.forRoot(
       [
+        {
+          path: '',
+          component: LoginModalComponent,
+          data: {
+            authorities: [],
+            pageTitle: 'Login',
+          },
+        },
         {
           path: 'admin',
           data: {
