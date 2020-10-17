@@ -65,4 +65,14 @@ public class MLModelServiceImpl implements MLModelService {
         log.debug("Request to delete MLModel : {}", id);
         mLModelRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteAll() {
+        mLModelRepository.deleteAllInBatch();
+    }
+
+    @Override
+    public long count() {
+        return mLModelRepository.count();
+    }
 }

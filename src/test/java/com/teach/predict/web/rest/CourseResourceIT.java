@@ -37,8 +37,8 @@ import com.teach.predict.domain.enumeration.Type;
 @WithMockUser
 public class CourseResourceIT {
 
-    private static final String DEFAULT_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_CODE = "BBBBBBBBBB";
+    private static final Long DEFAULT_CODE = 11111111L;
+    private static final Long UPDATED_CODE = 222222222L;
 
     private static final Specialization DEFAULT_SPECIALIZATION = Specialization.Arabic;
     private static final Specialization UPDATED_SPECIALIZATION = Specialization.English;
@@ -137,7 +137,7 @@ public class CourseResourceIT {
         int databaseSizeBeforeCreate = courseRepository.findAll().size();
 
         // Create the Course with an existing ID
-        course.setCode("1L");
+        course.setCode(1L);
         CourseDTO courseDTO = courseMapper.toDto(course);
 
         // An entity with an existing ID cannot be created, so this API call must fail
@@ -195,7 +195,7 @@ public class CourseResourceIT {
         // Initialize the database
         courseRepository.saveAndFlush(course);
 
-        String code = course.getCode();
+        Long code = course.getCode();
 
         defaultCourseShouldBeFound("code.equals=" + code);
         defaultCourseShouldNotBeFound("code.notEquals=" + code);

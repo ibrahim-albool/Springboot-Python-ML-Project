@@ -14,5 +14,5 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
-    Optional<Course> findByCode(String code);
+    Optional<Course> findByCode(Long code);
 }

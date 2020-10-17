@@ -11,7 +11,7 @@ import com.teach.predict.domain.enumeration.Type;
  */
 public class CourseDTO implements Serializable {
 
-    private String code;
+    private Long code;
 
     private Specialization specialization;
 
@@ -22,11 +22,11 @@ public class CourseDTO implements Serializable {
     private Integer hours;
 
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 

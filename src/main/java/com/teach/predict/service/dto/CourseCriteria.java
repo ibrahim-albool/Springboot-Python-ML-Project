@@ -62,7 +62,7 @@ public class CourseCriteria implements Serializable, Criteria {
 
     private static final long serialVersionUID = 1L;
 
-    private StringFilter code;
+    private LongFilter code;
 
     private SpecializationFilter specialization;
 
@@ -91,11 +91,11 @@ public class CourseCriteria implements Serializable, Criteria {
         return new CourseCriteria(this);
     }
 
-    public StringFilter getCode() {
+    public LongFilter getCode() {
         return code;
     }
 
-    public void setCode(StringFilter code) {
+    public void setCode(LongFilter code) {
         this.code = code;
     }
 

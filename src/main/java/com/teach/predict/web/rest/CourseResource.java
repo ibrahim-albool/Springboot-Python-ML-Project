@@ -60,7 +60,7 @@ public class CourseResource {
         log.debug("REST request to save Course : {}", courseDTO);
         CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.created(new URI("/api/courses/" + result.getCode()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getCode()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getCode().toString()))
             .body(result);
     }
 
@@ -81,7 +81,7 @@ public class CourseResource {
         }
         CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, courseDTO.getCode()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, courseDTO.getCode().toString()))
             .body(result);
     }
 

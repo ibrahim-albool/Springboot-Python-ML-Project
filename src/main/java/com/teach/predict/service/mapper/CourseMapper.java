@@ -17,7 +17,7 @@ public interface CourseMapper extends EntityMapper<CourseDTO, Course> {
     @Mapping(target = "removeTeachers", ignore = true)
     Course toEntity(CourseDTO courseDTO);
 
-    default Course fromCode(String code) {
+    default Course fromCode(Long code) {
         if (code == null) {
             return null;
         }

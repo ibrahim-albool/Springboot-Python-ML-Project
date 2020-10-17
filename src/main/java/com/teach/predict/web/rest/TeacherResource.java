@@ -1,5 +1,6 @@
 package com.teach.predict.web.rest;
 
+import com.teach.predict.service.MLPythonService;
 import com.teach.predict.service.TeacherService;
 import com.teach.predict.web.rest.errors.BadRequestAlertException;
 import com.teach.predict.service.dto.TeacherDTO;
@@ -11,11 +12,11 @@ import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,9 @@ public class TeacherResource {
     private final TeacherService teacherService;
 
     private final TeacherQueryService teacherQueryService;
+
+    @Autowired
+    private MLPythonService mlPythonService;
 
     public TeacherResource(TeacherService teacherService, TeacherQueryService teacherQueryService) {
         this.teacherService = teacherService;
@@ -98,6 +102,7 @@ public class TeacherResource {
     @GetMapping("/teachers")
     public ResponseEntity<List<TeacherDTO>> getAllTeachers(TeacherCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Teachers by criteria: {}", criteria);
+
         Page<TeacherDTO> page = teacherQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

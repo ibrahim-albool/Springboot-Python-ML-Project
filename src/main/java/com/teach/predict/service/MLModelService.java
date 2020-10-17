@@ -40,4 +40,8 @@ public interface MLModelService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    void deleteAll();
+
+    long count();
 }
