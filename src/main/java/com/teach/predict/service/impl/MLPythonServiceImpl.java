@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,6 +82,7 @@ public class MLPythonServiceImpl implements MLPythonService {
                 }
                 log.info("Storing training teachers");
                 teacherService.saveAll(teachers.get());
+                log.info("Finished storing teachers");
                 successfullyGotData=true;
                 break;
             }
@@ -129,31 +131,32 @@ public class MLPythonServiceImpl implements MLPythonService {
     @Override
     public Optional<List<TeacherDTO>> predictXTT() {
         String path = "predictXTT";
-        ResponseEntity<List<TeacherDTO>> result = mlClientAPIs.performMLApiRequest(
+        ResponseEntity<TeacherDTO[]> result = mlClientAPIs.performMLApiRequest(
             mlClientAPIs.getMLFullUrl(path),
             null,
             HttpMethod.GET,
-            List.class);
+            TeacherDTO[].class);
         if(result.getStatusCode() == HttpStatus.OK && result.getBody()!=null){
             //return the training data;
-            return Optional.of(result.getBody());
+            return Optional.of(Arrays.asList(result.getBody()) );
         }
         return Optional.empty();
     }
 
     @Override
     public Optional<String> predictXNew(String newDataFile) {
-        String path = "predictXTT?newDataFile=" + newDataFile;
-        ResponseEntity<List<TeacherDTO>> result = mlClientAPIs.performMLApiRequest(
+        String path = "predictXNew?newDataFile=" + newDataFile;
+        ResponseEntity<TeacherDTO[]> result = mlClientAPIs.performMLApiRequest(
             mlClientAPIs.getMLFullUrl(path),
             null,
             HttpMethod.GET,
-            List.class);
-        if (result.getStatusCode() == HttpStatus.OK && result.getBody() != null && result.getBody().size() > 0) {
+            TeacherDTO[].class);
+        if (result.getStatusCode() == HttpStatus.OK && result.getBody() != null && result.getBody().length > 0) {
             Thread thread = new Thread(() -> {
                 log.info("Storing predicted teachers");
-                List<TeacherDTO> teachers = result.getBody();
+                List<TeacherDTO> teachers = Arrays.asList(result.getBody());
                 teacherService.saveAll(teachers);
+                log.info("Finished storing teachers");
             });
             thread.start();
             return Optional.of("Prediction succeeded.");

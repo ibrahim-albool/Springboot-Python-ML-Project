@@ -154,7 +154,7 @@ public class MLModelResource {
      * @return
      * @throws URISyntaxException
      */
-    @PutMapping("/trainMLModel")
+    @PostMapping("/trainMLModel")
     public ResponseEntity trainMLModel(@RequestParam String trainingFile, @RequestParam String labelsFile) throws URISyntaxException {
         log.debug("REST request to train the MLModel.");
         Optional<String> res = mlPythonService.trainMLModel(trainingFile, labelsFile);
@@ -164,7 +164,7 @@ public class MLModelResource {
         return ResponseEntity.ok(res.get());
     }
 
-    @GetMapping("/predictData")
+    @PostMapping("/predictData")
     public ResponseEntity<String> predictXNew(@RequestParam String newDataFile) {
         log.debug("REST request the model teachers");
         Optional<String> res = mlPythonService.predictXNew(newDataFile);
