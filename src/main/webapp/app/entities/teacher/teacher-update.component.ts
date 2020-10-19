@@ -19,7 +19,6 @@ export class TeacherUpdateComponent implements OnInit {
   courses: ICourse[] = [];
 
   editForm = this.fb.group({
-    id: [],
     number: [],
     specialization: [],
     evaluation: [],
@@ -47,7 +46,6 @@ export class TeacherUpdateComponent implements OnInit {
 
   updateForm(teacher: ITeacher): void {
     this.editForm.patchValue({
-      id: teacher.id,
       number: teacher.number,
       specialization: teacher.specialization,
       evaluation: teacher.evaluation,
@@ -66,7 +64,7 @@ export class TeacherUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const teacher = this.createFromForm();
-    if (teacher.id !== undefined) {
+    if (teacher.number !== undefined) {
       this.subscribeToSaveResponse(this.teacherService.update(teacher));
     } else {
       this.subscribeToSaveResponse(this.teacherService.create(teacher));
@@ -76,7 +74,6 @@ export class TeacherUpdateComponent implements OnInit {
   private createFromForm(): ITeacher {
     return {
       ...new Teacher(),
-      id: this.editForm.get(['id'])!.value,
       number: this.editForm.get(['number'])!.value,
       specialization: this.editForm.get(['specialization'])!.value,
       evaluation: this.editForm.get(['evaluation'])!.value,
@@ -105,13 +102,13 @@ export class TeacherUpdateComponent implements OnInit {
   }
 
   trackById(index: number, item: ICourse): any {
-    return item.id;
+    return item.code;
   }
 
   getSelected(selectedVals: ICourse[], option: ICourse): ICourse {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
+        if (option.code === selectedVals[i].code && option.specialization === selectedVals[i].specialization) {
           return selectedVals[i];
         }
       }

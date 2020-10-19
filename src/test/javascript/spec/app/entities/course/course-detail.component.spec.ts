@@ -10,7 +10,7 @@ describe('Component Tests', () => {
   describe('Course Management Detail Component', () => {
     let comp: CourseDetailComponent;
     let fixture: ComponentFixture<CourseDetailComponent>;
-    const route = ({ data: of({ course: new Course(123) }) } as any) as ActivatedRoute;
+    const route = ({ data: of({ course: new Course(123,"Arabic") }) } as any) as ActivatedRoute;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('Component Tests', () => {
         comp.ngOnInit();
 
         // THEN
-        expect(comp.course).toEqual(jasmine.objectContaining({ id: 123 }));
+        expect(comp.course).toEqual(jasmine.objectContaining({ code: 123, specialization: "Arabic" }));
       });
     });
   });

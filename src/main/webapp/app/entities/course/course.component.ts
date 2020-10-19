@@ -76,7 +76,7 @@ export class CourseComponent implements OnInit, OnDestroy {
 
   trackId(index: number, item: ICourse): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    return item.id!;
+    return item.code!;
   }
 
   registerChangeInCourses(): void {
@@ -90,8 +90,8 @@ export class CourseComponent implements OnInit, OnDestroy {
 
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
-    if (this.predicate !== 'id') {
-      result.push('id');
+    if (this.predicate !== 'code') {
+      result.push('code');
     }
     return result;
   }

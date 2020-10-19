@@ -23,13 +23,13 @@ describe('Component Tests', () => {
             provide: ActivatedRoute,
             useValue: {
               data: of({
-                defaultSort: 'id,asc',
+                defaultSort: 'number,asc',
               }),
               queryParamMap: of(
                 convertToParamMap({
                   page: '1',
                   size: '1',
-                  sort: 'id,desc',
+                  sort: 'number,desc',
                 })
               ),
             },
@@ -61,7 +61,7 @@ describe('Component Tests', () => {
 
       // THEN
       expect(service.query).toHaveBeenCalled();
-      expect(comp.teachers && comp.teachers[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.teachers && comp.teachers[0]).toEqual(jasmine.objectContaining({ number: 123 }));
     });
 
     it('should load a page', () => {
@@ -81,16 +81,16 @@ describe('Component Tests', () => {
 
       // THEN
       expect(service.query).toHaveBeenCalled();
-      expect(comp.teachers && comp.teachers[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.teachers && comp.teachers[0]).toEqual(jasmine.objectContaining({ number: 123 }));
     });
 
-    it('should calculate the sort attribute for an id', () => {
+    it('should calculate the sort attribute for an number', () => {
       // WHEN
       comp.ngOnInit();
       const result = comp.sort();
 
       // THEN
-      expect(result).toEqual(['id,desc']);
+      expect(result).toEqual(['number,desc']);
     });
 
     it('should calculate the sort attribute for a non-id attribute', () => {
@@ -104,7 +104,7 @@ describe('Component Tests', () => {
       const result = comp.sort();
 
       // THEN
-      expect(result).toEqual(['name,desc', 'id']);
+      expect(result).toEqual(['name,desc', 'number']);
     });
   });
 });

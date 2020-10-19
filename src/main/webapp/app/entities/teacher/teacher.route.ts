@@ -17,9 +17,9 @@ export class TeacherResolve implements Resolve<ITeacher> {
   constructor(private service: TeacherService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ITeacher> | Observable<never> {
-    const id = route.params['id'];
-    if (id) {
-      return this.service.find(id).pipe(
+    const number = route.params['number'];
+    if (number) {
+      return this.service.find(number).pipe(
         flatMap((teacher: HttpResponse<Teacher>) => {
           if (teacher.body) {
             return of(teacher.body);
@@ -40,13 +40,13 @@ export const teacherRoute: Routes = [
     component: TeacherComponent,
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'number,asc',
       pageTitle: 'Teachers',
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':number/view',
     component: TeacherDetailComponent,
     resolve: {
       teacher: TeacherResolve,
@@ -70,7 +70,7 @@ export const teacherRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
+    path: ':number/edit',
     component: TeacherUpdateComponent,
     resolve: {
       teacher: TeacherResolve,

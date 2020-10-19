@@ -16,7 +16,6 @@ export class CourseUpdateComponent implements OnInit {
   isSaving = false;
 
   editForm = this.fb.group({
-    id: [],
     code: [],
     specialization: [],
     name: [],
@@ -34,7 +33,6 @@ export class CourseUpdateComponent implements OnInit {
 
   updateForm(course: ICourse): void {
     this.editForm.patchValue({
-      id: course.id,
       code: course.code,
       specialization: course.specialization,
       name: course.name,
@@ -50,7 +48,7 @@ export class CourseUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const course = this.createFromForm();
-    if (course.id !== undefined) {
+    if (course.code !== undefined && course.specialization !== undefined) {
       this.subscribeToSaveResponse(this.courseService.update(course));
     } else {
       this.subscribeToSaveResponse(this.courseService.create(course));
@@ -60,7 +58,6 @@ export class CourseUpdateComponent implements OnInit {
   private createFromForm(): ICourse {
     return {
       ...new Course(),
-      id: this.editForm.get(['id'])!.value,
       code: this.editForm.get(['code'])!.value,
       specialization: this.editForm.get(['specialization'])!.value,
       name: this.editForm.get(['name'])!.value,

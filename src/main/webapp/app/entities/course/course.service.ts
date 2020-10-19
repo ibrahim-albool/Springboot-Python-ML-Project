@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { ICourse } from 'app/shared/model/course.model';
+import { Specialization } from 'app/shared/model/enumerations/specialization.model';
 
 type EntityResponseType = HttpResponse<ICourse>;
 type EntityArrayResponseType = HttpResponse<ICourse[]>;
@@ -23,8 +24,8 @@ export class CourseService {
     return this.http.put<ICourse>(this.resourceUrl, course, { observe: 'response' });
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<ICourse>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  find(code: number, specialization: Specialization): Observable<EntityResponseType> {
+    return this.http.get<ICourse>(`${this.resourceUrl}/${code}/${specialization}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
@@ -32,7 +33,7 @@ export class CourseService {
     return this.http.get<ICourse[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  delete(code: number, specialization: Specialization): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${code}/${specialization}`, { observe: 'response' });
   }
 }
