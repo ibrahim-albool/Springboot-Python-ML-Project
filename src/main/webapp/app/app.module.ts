@@ -7,7 +7,6 @@ import { TeachPredictorCoreModule } from 'app/core/core.module';
 import { TeachPredictorAppRoutingModule } from './app-routing.module';
 import { TeachPredictorHomeModule } from './home/home.module';
 import { TeachPredictorEntityModule } from './entities/entity.module';
-// jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
@@ -20,7 +19,6 @@ import { ErrorComponent } from './layouts/error/error.component';
     TeachPredictorSharedModule,
     TeachPredictorCoreModule,
     TeachPredictorHomeModule,
-    // jhipster-needle-angular-add-module JHipster will add new module here
     TeachPredictorEntityModule,
     TeachPredictorAppRoutingModule,
   ],
