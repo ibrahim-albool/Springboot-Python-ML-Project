@@ -1,14 +1,15 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginService } from 'app/core/login/login.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-login-modal',
   templateUrl: './login.component.html',
 })
-export class LoginModalComponent implements AfterViewInit {
+export class LoginModalComponent implements AfterViewInit, OnInit {
   @ViewChild('username', { static: false })
   username?: ElementRef;
 
@@ -20,7 +21,16 @@ export class LoginModalComponent implements AfterViewInit {
     rememberMe: [false],
   });
 
-  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) {}
+  constructor(
+    private loginService: LoginService,
+    private accountService: AccountService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.isAuthenticated();
+  }
 
   ngAfterViewInit(): void {
     if (this.username) {
@@ -57,5 +67,15 @@ export class LoginModalComponent implements AfterViewInit {
 
   requestResetPassword(): void {
     this.router.navigate(['/account/reset', 'request']);
+  }
+
+  isAuthenticated(): void {
+    if (
+      this.accountService.isAuthenticated() === true ||
+      sessionStorage.getItem('jhi-authenticationtoken') != null ||
+      localStorage.getItem('jhi-authenticationtoken') != null
+    ) {
+      this.router.navigate(['/home']);
+    }
   }
 }
