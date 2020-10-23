@@ -1,27 +1,37 @@
 <div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
-    </div>
-
-    <div class="col-md-9">
-        <h1 class="display-4">Welcome, Java Hipster!</h1>
-
-        <p class="lead">This is your homepage</p>
-
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
+    <div class="col-md-4">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <h1 class="display-3" style="text-align: center;color:rgb(0, 99, 138)">Teacher Predictor</h1>
             </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>If you want to </span>
-                <a class="alert-link" routerLink="/">sign in</a>
-            </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>You don't have an account yet?</span>&nbsp;
-                <a class="alert-link" routerLink="account/register">Register a new account</a>
+            <div class="col-md-12">
+                <span class="hipster img-fluid rounded"></span>
             </div>
         </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div [ngSwitch]="isAuthenticated()">
+                    <div *ngSwitchCase="true">
+                        <h2 class="display-6" *ngIf="account">Hello <i>{{ account.login }}</i>!
+                        </h2>
+                    </div>
+                    <div *ngSwitchCase="false">
+                        <h2 class="display-6">Welcome to Teacher Predictor!</h2>
+                        <span class="lead">Please </span>
+                        <a class="alert-link" class="lead" routerLink="/login"><i>sign in</i></a>
+                        <span class="lead"> to access the website.</span>
+                    </div>
+                    <div *ngSwitchCase="false">
+                        <span class="lead">Or </span>
+                        <a class="alert-link" class="lead" routerLink="account/register"><i>sign up</i></a>
+                        <span class="lead"> if you don't have an account.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

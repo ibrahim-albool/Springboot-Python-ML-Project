@@ -53,9 +53,9 @@ export class LoginModalComponent implements AfterViewInit, OnInit {
             this.router.url.startsWith('/account/activate') ||
             this.router.url.startsWith('/account/reset/')
           ) {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/']); //home
           }
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']); //home
         },
         () => (this.authenticationError = true)
       );
@@ -75,7 +75,7 @@ export class LoginModalComponent implements AfterViewInit, OnInit {
       sessionStorage.getItem('jhi-authenticationtoken') != null ||
       localStorage.getItem('jhi-authenticationtoken') != null
     ) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']); //home
     }
   }
 }
