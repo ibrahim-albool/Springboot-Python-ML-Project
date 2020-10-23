@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <h1 class="display-3" style="text-align: center;color:rgb(0, 99, 138)">Teacher Predictor</h1>
+            </div>
+            <div class="col-md-12">
+                <span class="hipster img-fluid rounded"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="display-6">Prediction New Data</h2>
+                <form name="predictDataForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="predictDataForm">
+                    <jhi-alert-error></jhi-alert-error>
+                    <div class="form-group">
+                        <label class="form-control-label" for="fileName">Enter a file name for data
+                            prediction.</label>
+                        <input type="text" class="form-control" name="fileName"
+                            placeholder="Enter file name" formControlName="fileName">
+                    </div>
+                    <button type="submit" [disabled]="predictDataForm.invalid || isSaving"
+                        class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
