@@ -1,8 +1,7 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-primary">
-    <a class="navbar-brand logo" routerLink="/home" (click)="collapseNavbar()">
+    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()"><!--/home-->
         <span class="logo-img"></span>
         <span class="navbar-title">Teacher Predictor</span>
-        <!-- <span class="navbar-version">{{ version }}</span> -->
     </a>
     <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -13,22 +12,19 @@
         [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                <a class="nav-link" routerLink="/home" (click)="collapseNavbar()">
+                <a class="nav-link" routerLink="/" (click)="collapseNavbar()"><!--/home-->
                     <span>
                         <fa-icon icon="home"></fa-icon>
                         <span>Home</span>
                     </span>
                 </a>
             </li>
-            <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
                 routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
-                        <span>
-                            Entities
-                        </span>
+                        <span>System</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
@@ -46,14 +42,20 @@
                             <span>Course</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="ml-model" routerLinkActive="active"
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                        <a class="dropdown-item" routerLink="admin/ml-model" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span>Ml Model</span>
+                            <span>Machine Learning Model</span>
                         </a>
                     </li>
-                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                        <a class="dropdown-item" routerLink="admin/predict-new-data" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Predict New Data</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
@@ -72,7 +74,6 @@
                             <span>User management</span>
                         </a>
                     </li>
-                    <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                 </ul>
             </li>
             <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
@@ -110,7 +111,7 @@
                         </a>
                     </li>
                     <li *ngSwitchCase="false">
-                        <a class="dropdown-item" routerLink="/" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="/login" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
                             <span>Sign in</span>
                         </a>
