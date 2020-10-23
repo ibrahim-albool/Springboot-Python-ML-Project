@@ -12,11 +12,6 @@ import { RouterModule } from '@angular/router';
         path: 'course',
         loadChildren: () => import('./course/course.module').then(m => m.TeachPredictorCourseModule),
       },
-      {
-        path: 'ml-model',
-        loadChildren: () => import('./ml-model/ml-model.module').then(m => m.TeachPredictorMLModelModule),
-      },
-      /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
 })
