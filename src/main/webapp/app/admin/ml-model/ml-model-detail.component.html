@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="mLModel">
+            <h2><span>ML Model</span> {{ mLModel.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Tp</span></dt>
+                <dd>
+                    <span>{{ mLModel.tp }}</span>
+                </dd>
+                <dt><span>Tn</span></dt>
+                <dd>
+                    <span>{{ mLModel.tn }}</span>
+                </dd>
+                <dt><span>Fp</span></dt>
+                <dd>
+                    <span>{{ mLModel.fp }}</span>
+                </dd>
+                <dt><span>Fn</span></dt>
+                <dd>
+                    <span>{{ mLModel.fn }}</span>
+                </dd>
+                <dt><span>Accuracy</span></dt>
+                <dd>
+                    <span>{{ mLModel.accuracy }}</span>
+                </dd>
+                <dt><span>Precision</span></dt>
+                <dd>
+                    <span>{{ mLModel.precision }}</span>
+                </dd>
+                <dt><span>Recall</span></dt>
+                <dd>
+                    <span>{{ mLModel.recall }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/ml-model', mLModel.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
