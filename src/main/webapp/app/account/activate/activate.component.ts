@@ -12,7 +12,7 @@ export class ActivateComponent implements OnInit {
   success = false;
 
   constructor(private activateService: ActivateService, private route: ActivatedRoute) {}
-
+  // similar implementation to modelMetrics, returning either success or failure
   ngOnInit(): void {
     this.route.queryParams.pipe(flatMap(params => this.activateService.get(params.key))).subscribe(
       () => (this.success = true),
