@@ -1,15 +1,39 @@
+<head>
+    <style>
+        .hipster {
+            text-align: center;
+            display: inline-block;
+            width: 585px;
+            height: 502px;
+            background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+            background-size: contain;
+        }
+
+        /* wait autoprefixer update to allow simple generation of high pixel density media query */
+        @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (-moz-min-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (min-resolution: 192dpi),
+        only screen and (min-resolution: 2dppx) {
+            .hipster {
+                background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+                background-size: contain;
+            }
+        }
+    </style>
+</head>
 <div class="row">
-    <div class="col-md-4">
-        <div class="row">
+    <div class="col-md-3">
+        <div class="row justify-content-center">
             <div class="col-md-12">
                 <h1 class="display-3" style="text-align: center;color:rgb(0, 99, 138)">Teacher Predictor</h1>
             </div>
             <div class="col-md-12">
-                <!-- <span class="hipster img-fluid rounded"></span> -->
+                <span class="hipster img-fluid rounded"></span>
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h2 class="display-6">Sign In</h2>
@@ -55,22 +79,5 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="row" style="margin: 0 auto;padding: 20px 0;position: relative;width: 472px;">
-            <div class="col-md-12" style="box-sizing: border-box;display: inline-block;vertical-align: top;">
-                <div style="padding: 36px 0 16px;display: block;">
-                    <h1 class="display-4">Teacher Predictor</h1>
-                </div>
-            </div>
-            <div class="col-md-12" style="display: inline-block;vertical-align: top;">
-                <div style="height: 456px;">
-                    <div style="text-align: left;align-items: center;background-color: #fff;
-                    border: none;border-radius: 8px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
-                    box-sizing: border-box;padding: 20px 0px;">
-                        
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>

@@ -32,14 +32,14 @@
                         <a class="dropdown-item" routerLink="teacher" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span>Teacher</span>
+                            <span>Teachers</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="course" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span>Course</span>
+                            <span>Courses</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
@@ -53,7 +53,7 @@
                         <a class="dropdown-item" routerLink="admin/predict-new-data" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span>Predict New Data</span>
+                            <span>Data Prediction</span>
                         </a>
                     </li>
                 </ul>
