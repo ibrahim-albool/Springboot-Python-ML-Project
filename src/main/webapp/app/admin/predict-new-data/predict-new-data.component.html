@@ -1,5 +1,29 @@
+<head>
+    <style>
+        .hipster {
+            text-align: center;
+            display: inline-block;
+            width: 585px;
+            height: 502px;
+            background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+            background-size: contain;
+        }
+
+        /* wait autoprefixer update to allow simple generation of high pixel density media query */
+        @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (-moz-min-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (min-resolution: 192dpi),
+        only screen and (min-resolution: 2dppx) {
+            .hipster {
+                background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+                background-size: contain;
+            }
+        }
+    </style>
+</head>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <h1 class="display-3" style="text-align: center;color:rgb(0, 99, 138)">Teacher Predictor</h1>
@@ -10,20 +34,35 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2 class="display-6">Prediction New Data</h2>
-                <form name="predictDataForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="predictDataForm">
-                    <jhi-alert-error></jhi-alert-error>
+                <h2 class="display-6">Data Prediction</h2>
+                <div class="alert alert-danger" *ngIf="success">
+                    <strong>Prediction Completed Successfully!</strong> Bla bla bla.
+                </div>
+                <div class="alert alert-danger" *ngIf="error5001">
+                    <strong>Internal Server Error!</strong> Data model doesn't exist.
+                </div>
+                <div class="alert alert-danger" *ngIf="error5002">
+                    <strong>Internal Server Error!</strong> Server is down.
+                </div>
+                <form name="predictDataForm" role="form" (ngSubmit)="save()" [formGroup]="predictDataForm">
                     <div class="form-group">
-                        <label class="form-control-label" for="fileName">Enter a file name for data
-                            prediction.</label>
-                        <input type="text" class="form-control" name="fileName"
-                            placeholder="Enter file name" formControlName="fileName">
+                        <div class="col-md-12">
+                            <label class="form-control-label" for="fileName">Enter a file name for data
+                                prediction.</label>
+                            <input type="text" class="form-control" name="fileName" placeholder="Enter file name"
+                                formControlName="fileName">
+                        </div>
+                        <div *ngIf="isSaving" class="col-md-12" style="text-align:center; display:inline-block">
+                            <img src="../../../content/images/loading-bar.gif">
+                        </div>
+                        <div class="col-md-12" style="margin-top:5px;">
+                            <button type="submit" style="width: 100%;" [disabled]="isSaving"
+                                class="btn btn-primary">Predict</button>
+                        </div>
                     </div>
-                    <button type="submit" [disabled]="predictDataForm.invalid || isSaving"
-                        class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
