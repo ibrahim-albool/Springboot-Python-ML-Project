@@ -4,16 +4,14 @@ import com.teach.predict.service.dto.HistoryDTO;
 import com.teach.predict.service.dto.MLModelDTO;
 import com.teach.predict.service.dto.TeacherDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public interface MLPythonService {
-
-//    List<TeacherDTO> predictTeachers (String fileName);
-//
-//    String predictTeachers1(String fileName);
 
     Optional<String> trainMLModel(String trainingFile, String labelsFile);
 
@@ -23,7 +21,7 @@ public interface MLPythonService {
 
     Optional<List<TeacherDTO>> predictXTT();
 
-    Optional<String> predictXNew(String newDataFile);
+    Optional<String> predictXNew(String newDataFile) throws ResourceAccessException, HttpClientErrorException;
 
-    Optional<String> deleteModelCache();
+    Optional<String> deleteModelCache() throws ResourceAccessException;
 }

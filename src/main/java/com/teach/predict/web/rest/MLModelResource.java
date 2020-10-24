@@ -16,9 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -153,49 +156,92 @@ public class MLModelResource {
      * @return
      * @throws URISyntaxException
      */
-    @PostMapping("/trainMLModel")
+    @PostMapping(value = "/trainMLModel", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity trainMLModel(@RequestParam String trainingFile, @RequestParam String labelsFile) throws URISyntaxException {
         log.debug("REST request to train the MLModel.");
-        Optional<String> res = mlPythonService.trainMLModel(trainingFile, labelsFile);
+        Optional<String> res = Optional.empty();
+        try {
+            res = mlPythonService.trainMLModel(trainingFile, labelsFile);
+        }catch (ResourceAccessException e){
+            return ResponseEntity.status(404).body("{\"message\":\"Python server is down.\"}");
+        } catch (HttpClientErrorException e) {
+            String msg = e.getLocalizedMessage();
+            return ResponseEntity.status(404).body(msg.substring(msg.indexOf('{'), msg.lastIndexOf('}') + 1));
+        }
         if(!res.isPresent()){
             return ResponseEntity.status(404).body("Model is already trained");
         }
         return ResponseEntity.ok(res.get());
     }
 
-    @PostMapping("/predictData")
+    @PostMapping(value = "/predictData", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public ResponseEntity<String> predictXNew(@RequestParam String newDataFile) {
+    public ResponseEntity predictXNew(@RequestParam String newDataFile) {
         log.debug("REST request the model teachers");
-        Optional<String> res = mlPythonService.predictXNew(newDataFile);
-        if (!res.isPresent()) {
-            ResponseEntity.status(404).body("");
+        Optional<String> res = Optional.empty();
+        try {
+            res = mlPythonService.predictXNew(newDataFile);
+        } catch (ResourceAccessException e) {
+            return ResponseEntity.status(404).body("{\"message\":\"Python server is down.\"}");
+        } catch (HttpClientErrorException e) {
+            String msg = e.getLocalizedMessage();
+            return ResponseEntity.status(404).body(msg.substring(msg.indexOf('{'), msg.lastIndexOf('}') + 1));
         }
-        return ResponseEntity.ok(res.get());
+        if (res.isPresent()) {
+            return ResponseEntity.ok("{\"message\":\"" + res.get() + "\"}");
+        }
+        return ResponseEntity.ok("");
+
     }
 
-    @GetMapping("/modelMetrics")
-    public ResponseEntity<MLModelDTO> getModelMetrics() {
+    @GetMapping(value = "/modelMetrics", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getModelMetrics() {
         log.debug("REST request the model metrics");
-        return ResponseUtil.wrapOrNotFound(mLModelService.findAll().stream().findFirst());
-    }
+        Optional<MLModelDTO> metrics = Optional.empty();
+        try {
+            metrics = mLModelService.findAll().stream().findFirst();
+        } catch (ResourceAccessException e) {
+            return ResponseEntity.status(404).body("{\"message\":\"Python server is down.\"}");
+        }
 
-    @GetMapping("/modelHistory")
-    public ResponseEntity<HistoryDTO> getModelHistory() {
-        log.debug("REST request the model history");
-        Optional<HistoryDTO> metrics = mlPythonService.getModelHistory();
+        if (!metrics.isPresent()) {
+            return ResponseEntity.status(404).body("{\"message\":\"Model is not trained yet.\"}");
+        }
         return ResponseUtil.wrapOrNotFound(metrics);
     }
 
-    @DeleteMapping("/deleteModelAndTeachers")
+    @GetMapping(value = "/modelHistory", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getModelHistory() {
+        log.debug("REST request the model history");
+        Optional<HistoryDTO> history = Optional.empty();
+        try {
+            history = mlPythonService.getModelHistory();
+        } catch (ResourceAccessException e) {
+            return ResponseEntity.status(404).body("{\"message\":\"Python server is down.\"}");
+        } catch (HttpClientErrorException e) {
+            String msg = e.getLocalizedMessage();
+            return ResponseEntity.status(404).body(msg.substring(msg.indexOf('{'), msg.lastIndexOf('}') + 1));
+        }
+        if(!history.isPresent()){
+            return ResponseEntity.status(404).body("{\"message\":\"Model is not trained yet.\"}");
+        }
+        return ResponseUtil.wrapOrNotFound(history);
+    }
+
+    @DeleteMapping(value = "/deleteModelAndTeachers", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<String> deleteModelAndTeachers() {
         log.debug("REST request the model metrics");
-        mLModelService.deleteAll();
-        teacherService.deleteAll();
-        Optional<String> result = mlPythonService.deleteModelCache();
-        return ResponseUtil.wrapOrNotFound(result);
+        Optional<String> result = Optional.empty();
+        try{
+            result = mlPythonService.deleteModelCache();
+            mLModelService.deleteAll();
+            teacherService.deleteAll();
+        }catch(ResourceAccessException e){
+            return ResponseEntity.status(404).body("{\"message\":\"Python server is down.\"}");
+        }
+        return ResponseEntity.ok("{\"message\":\"Succeeded.\"}");
     }
 
 }
