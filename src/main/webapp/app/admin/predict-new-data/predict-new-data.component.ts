@@ -26,12 +26,6 @@ export class PredictNewDataComponent implements OnInit {
   constructor(private predictNewDataService: PredictNewDataService, private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe(({ predictDataFile }) => {
-      if (predictDataFile) {
-        this.predictDataFile = predictDataFile;
-        this.updateForm(predictDataFile);
-      }
-    });
     this.predictNewDataService.authorities().subscribe(authorities => {
       this.authorities = authorities;
     });
