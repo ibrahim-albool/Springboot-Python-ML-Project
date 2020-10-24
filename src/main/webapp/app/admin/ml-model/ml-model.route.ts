@@ -11,6 +11,7 @@ import { MLModelService } from './ml-model.service';
 import { MLModelComponent } from './ml-model.component';
 import { MLModelDetailComponent } from './ml-model-detail.component';
 import { MLModelUpdateComponent } from './ml-model-update.component';
+import { MlModelDataComponent } from './ml-model-data.component';
 
 @Injectable({ providedIn: 'root' })
 export class MLModelResolve implements Resolve<IMLModel> {
@@ -77,6 +78,18 @@ export const mLModelRoute: Routes = [
     data: {
       authorities: [Authority.USER],
       pageTitle: 'MLModels',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'training-data',
+    component: MlModelDataComponent,
+    resolve: {
+      mLModel: MLModelResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'Training Model',
     },
     canActivate: [UserRouteAccessService],
   },
