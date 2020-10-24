@@ -14,6 +14,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +56,13 @@ public class MLPythonServiceImpl implements MLPythonService {
         boolean successfullyGotData=false;
         //5 min. waiting.
         for (int i = 0; i < 60; i++) {
-            Optional<MLModelDTO> metrics = getModelMetrics();
+            Optional<MLModelDTO> metrics = Optional.empty();
+            try {
+                metrics = getModelMetrics();
+            }catch (HttpClientErrorException e) {
+                String msg = e.getLocalizedMessage();
+                log.error(msg.substring(msg.indexOf('{'), msg.lastIndexOf('}') + 1));
+            }
             if (metrics.isPresent()){
                 if(mlModelService.count()>0){
                     mlModelService.deleteAll();
@@ -144,7 +152,7 @@ public class MLPythonServiceImpl implements MLPythonService {
     }
 
     @Override
-    public Optional<String> predictXNew(String newDataFile) {
+    public Optional<String> predictXNew(String newDataFile) throws ResourceAccessException, HttpClientErrorException {
         String path = "predictXNew?newDataFile=" + newDataFile;
         ResponseEntity<TeacherDTO[]> result = mlClientAPIs.performMLApiRequest(
             mlClientAPIs.getMLFullUrl(path),
@@ -165,7 +173,7 @@ public class MLPythonServiceImpl implements MLPythonService {
     }
 
     @Override
-    public Optional<String> deleteModelCache() {
+    public Optional<String> deleteModelCache() throws ResourceAccessException {
         String path = "deleteModelCache";
         ResponseEntity<String> result =  mlClientAPIs.performMLApiRequest(
             mlClientAPIs.getMLFullUrl(path),
