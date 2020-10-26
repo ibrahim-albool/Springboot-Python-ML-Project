@@ -40,7 +40,7 @@ export const mLModelRoute: Routes = [
     path: '',
     component: MLModelComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN],
       pageTitle: 'MLModels',
     },
     canActivate: [UserRouteAccessService],
@@ -52,7 +52,7 @@ export const mLModelRoute: Routes = [
       mLModel: MLModelResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN],
       pageTitle: 'MLModels',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const mLModelRoute: Routes = [
       mLModel: MLModelResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN],
       pageTitle: 'MLModels',
     },
     canActivate: [UserRouteAccessService],
@@ -76,20 +76,20 @@ export const mLModelRoute: Routes = [
       mLModel: MLModelResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN],
       pageTitle: 'MLModels',
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'training-data',
+    path: 'trained-model',
     component: MlModelDataComponent,
     resolve: {
       mLModel: MLModelResolve,
     },
     data: {
-      authorities: [Authority.USER],
-      pageTitle: 'Training Model',
+      authorities: [Authority.ADMIN],
+      pageTitle: 'Trained Model',
     },
     canActivate: [UserRouteAccessService],
   },

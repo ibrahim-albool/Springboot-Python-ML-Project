@@ -20,7 +20,7 @@ export class CourseResolve implements Resolve<ICourse> {
     const code = route.params['code'];
     const specialization = route.params['specialization'];
     if (code && specialization) {
-      return this.service.find(code,specialization).pipe(
+      return this.service.find(code, specialization).pipe(
         flatMap((course: HttpResponse<Course>) => {
           if (course.body) {
             return of(course.body);
@@ -40,7 +40,7 @@ export const courseRoute: Routes = [
     path: '',
     component: CourseComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       defaultSort: 'code,asc',
       pageTitle: 'Courses',
     },
@@ -53,7 +53,7 @@ export const courseRoute: Routes = [
       course: CourseResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'Courses',
     },
     canActivate: [UserRouteAccessService],
@@ -65,7 +65,7 @@ export const courseRoute: Routes = [
       course: CourseResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'Courses',
     },
     canActivate: [UserRouteAccessService],
@@ -77,7 +77,7 @@ export const courseRoute: Routes = [
       course: CourseResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'Courses',
     },
     canActivate: [UserRouteAccessService],

@@ -39,7 +39,7 @@ export const teacherRoute: Routes = [
     path: '',
     component: TeacherComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       defaultSort: 'number,asc',
       pageTitle: 'Teachers',
     },
@@ -52,7 +52,7 @@ export const teacherRoute: Routes = [
       teacher: TeacherResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'Teachers',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const teacherRoute: Routes = [
       teacher: TeacherResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'Teachers',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const teacherRoute: Routes = [
       teacher: TeacherResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'Teachers',
     },
     canActivate: [UserRouteAccessService],
