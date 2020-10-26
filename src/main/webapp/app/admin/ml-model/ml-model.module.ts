@@ -9,8 +9,13 @@ import { MLModelDeleteDialogComponent } from './ml-model-delete-dialog.component
 import { mLModelRoute } from './ml-model.route';
 import { MlModelDataComponent } from './ml-model-data.component';
 
+// @ts-ignore
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+PlotlyModule.plotlyjs = PlotlyJS;
+
 @NgModule({
-  imports: [TeachPredictorSharedModule, RouterModule.forChild(mLModelRoute)],
+  imports: [PlotlyModule, TeachPredictorSharedModule, RouterModule.forChild(mLModelRoute)],
   declarations: [MLModelComponent, MLModelDetailComponent, MLModelUpdateComponent, MLModelDeleteDialogComponent, MlModelDataComponent],
   entryComponents: [MLModelDeleteDialogComponent],
 })
