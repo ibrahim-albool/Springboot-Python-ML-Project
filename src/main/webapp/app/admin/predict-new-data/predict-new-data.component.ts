@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { PredictNewData } from 'app/shared/model/predict-new-data.model';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { PredictNewDataService } from './predict-new-data.service';
@@ -14,8 +13,6 @@ import { PredictNewDataService } from './predict-new-data.service';
 })
 export class PredictNewDataComponent implements OnInit {
   private _alert = new Subject<string>();
-
-  predictDataFile!: PredictNewData;
   authorities: string[] = [];
 
   isLoading = false;
@@ -36,8 +33,8 @@ export class PredictNewDataComponent implements OnInit {
 
     this.isLoading = true;
     this.predictNewDataService.modelMetrics().subscribe(
-      () => this.successfulRedirection(),
-      response => this.unsuccessfulRedirection(response)
+      () => this.successfulModelCheck(),
+      response => this.unsuccessfulModelCheck(response)
     );
 
     this.predictNewDataService.authorities().subscribe(authorities => {
@@ -75,14 +72,14 @@ export class PredictNewDataComponent implements OnInit {
     this._alert.next();
   }
 
-  successfulRedirection(): void {
+  successfulModelCheck(): void {
     this.isLoading = false;
     this.predictionAvailable = true;
     this.predictDataForm.get('fileName')?.enable();
     this.modelNotTrained = true;
   }
 
-  unsuccessfulRedirection(response: HttpErrorResponse): void {
+  unsuccessfulModelCheck(response: HttpErrorResponse): void {
     this.isLoading = false;
     this.predictionAvailable = false;
     this.predictDataForm.get('fileName')?.disable();
