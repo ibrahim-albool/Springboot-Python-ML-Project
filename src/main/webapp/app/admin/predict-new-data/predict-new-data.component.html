@@ -22,7 +22,15 @@
         }
     </style>
 </head>
-<div class="row">
+<ngb-alert *ngIf="!modelNotTrained" type="danger" (close)="modelNotTrained = true">{{ modelNotTrainedMessage }}
+</ngb-alert>
+
+<div *ngIf="isLoading" class="row justify-content-center" style="text-align:center; display:inline-block; width:100%;">
+    <div class="col-md-12">
+        <img src="../../../content/images/loading-bar.gif">
+    </div>
+</div>
+<div *ngIf="!isLoading" class="row">
     <div class="col-md-3">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -38,15 +46,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h2 class="display-6">Data Prediction</h2>
-                <div class="alert alert-danger" *ngIf="success">
-                    <strong>Prediction Completed Successfully!</strong> Bla bla bla.
-                </div>
-                <div class="alert alert-danger" *ngIf="error5001">
-                    <strong>Internal Server Error!</strong> Data model doesn't exist.
-                </div>
-                <div class="alert alert-danger" *ngIf="error5002">
-                    <strong>Internal Server Error!</strong> Server is down.
-                </div>
+                <ngb-alert *ngIf="predictionSuccessfulAlert" type="success" (close)="predictionSuccessfulAlert = ''">
+                    {{ predictionSuccessfulAlert }}
+                </ngb-alert>
+                <ngb-alert *ngIf="predictionFailedAlert" type="danger" (close)="predictionFailedAlert = ''">
+                    {{ predictionFailedAlert }}
+                </ngb-alert>
+
                 <form name="predictDataForm" role="form" (ngSubmit)="save()" [formGroup]="predictDataForm">
                     <div class="form-group">
                         <div class="col-md-12">
@@ -59,7 +65,7 @@
                             <img src="../../../content/images/loading-bar.gif">
                         </div>
                         <div class="col-md-12" style="margin-top:5px;">
-                            <button type="submit" style="width: 100%;" [disabled]="isSaving"
+                            <button type="submit" style="width: 100%;" [disabled]="isSaving || !predictionAvailable"
                                 class="btn btn-primary">Predict</button>
                         </div>
                     </div>

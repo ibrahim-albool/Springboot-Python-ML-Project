@@ -3,10 +3,6 @@ import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { IPredictNewData } from 'app/shared/model/predict-new-data.model';
-
-type EntityResponseType = HttpResponse<IPredictNewData>;
-type EntityArrayResponseType = HttpResponse<IPredictNewData[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PredictNewDataService {
@@ -14,11 +10,17 @@ export class PredictNewDataService {
 
   constructor(protected http: HttpClient) {}
 
-  predictData(newDataFile: string): Observable<{}> {
+  predictData(newDataFile: string): Observable<any> {
     return this.http.post(this.resourceUrl, null, {
+      observe: 'response',
       params: new HttpParams().set('newDataFile', newDataFile),
     });
   }
+
+  modelMetrics(): Observable<HttpResponse<{}>> {
+    return this.http.get('api/modelMetrics', { observe: 'response' });
+  }
+
   authorities(): Observable<string[]> {
     return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
   }
