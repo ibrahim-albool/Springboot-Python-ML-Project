@@ -7,6 +7,6 @@ export const HOME_ROUTE: Route = {
   component: HomeComponent,
   data: {
     authorities: [],
-    pageTitle: 'Welcome to Teacher Predictor!',
+    pageTitle: "Welcome to Teachers' Courses Predictor!",
   },
 };
