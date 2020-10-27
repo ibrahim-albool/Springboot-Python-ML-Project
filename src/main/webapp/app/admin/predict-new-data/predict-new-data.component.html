@@ -22,7 +22,7 @@
         }
     </style>
 </head>
-<ngb-alert *ngIf="!predictionAvailable" type="danger" (close)="predictionAvailable = true">{{ modelTrainedMessage }}
+<ngb-alert *ngIf="!modelTrained" type="danger" (close)="modelTrained = true">{{ modelTrainedMessage }}
 </ngb-alert>
 
 <div *ngIf="isLoading" class="row justify-content-center" style="text-align:center; display:inline-block; width:100%;">

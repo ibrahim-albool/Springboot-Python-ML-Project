@@ -17,10 +17,10 @@ export class PredictNewDataComponent implements OnInit {
 
   isLoading = false;
   isPredicting = false;
+  modelTrained = false;
   predictionAvailable = false;
   predictionSuccessfulAlert = '';
   predictionFailedAlert = '';
-  modelTrained = false;
   modelTrainedMessage = '';
 
   predictDataForm = this.fb.group({
@@ -55,12 +55,12 @@ export class PredictNewDataComponent implements OnInit {
 
   onPredictSuccess(response: HttpResponse<any>): void {
     this.isPredicting = false;
-    this.predictDataForm.get('fileName')?.enable();
+    this.predictionAvailable = false;
+    this.predictDataForm.get('fileName')?.disable();
     if (response.status === 200) {
       this.predictionSuccessfulAlert = response.body.message;
     }
     this._alert.next();
-    this.router.navigate(['/teacher']);
   }
 
   onPredictError(response: HttpErrorResponse): void {
@@ -76,18 +76,21 @@ export class PredictNewDataComponent implements OnInit {
 
   successfulModelCheck(): void {
     this.isLoading = false;
+    this.modelTrained = true;
     this.predictionAvailable = true;
     this.predictDataForm.get('fileName')?.enable();
   }
 
   unsuccessfulModelCheck(response: HttpErrorResponse): void {
     this.isLoading = false;
-    this.predictionAvailable = false;
+    this.modelTrained = false;
     this.predictDataForm.get('fileName')?.disable();
     if (response.status === 404) {
       this.modelTrainedMessage = response.error.message;
+      this.predictionAvailable = false;
     } else {
       this.modelTrainedMessage = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
+      this.predictionAvailable = false;
     }
     this._alert.next();
   }
