@@ -36,14 +36,15 @@ export class MLModelService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  trainMLModel(trainingFile: string, labelsFile: string): Observable<{}> {
-    return this.http.post(this.resourceUrl, null, {
+  trainMLModel(trainingFile: string, labelsFile: string): Observable<any> {
+    return this.http.post('api/trainMLModel', null, {
+      observe: 'response',
       params: new HttpParams().set('trainingFile', trainingFile).set('labelsFile', labelsFile),
     });
   }
 
   modelMetrics(): Observable<HttpResponse<{}>> {
-    return this.http.get(this.resourceUrl, { observe: 'response' });
+    return this.http.get('api/modelMetrics', { observe: 'response' });
   }
 
   authorities(): Observable<string[]> {

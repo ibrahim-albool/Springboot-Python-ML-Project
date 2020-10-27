@@ -1,73 +1,102 @@
-<div>
-    <h2 id="page-heading">
-        <span>ML Models</span>
+<head>
+    <style>
+        .hipster {
+            text-align: center;
+            display: inline-block;
+            width: 585px;
+            height: 502px;
+            background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+            background-size: contain;
+        }
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-ml-model" [routerLink]="['/ml-model/new']">
-            <fa-icon icon="plus"></fa-icon>
-            <span>
-            Create a new ML Model
-            </span>
-        </button>
-    </h2>
+        /* wait autoprefixer update to allow simple generation of high pixel density media query */
+        @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (-moz-min-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (min-resolution: 192dpi),
+        only screen and (min-resolution: 2dppx) {
+            .hipster {
+                background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+                background-size: contain;
+            }
+        }
+    </style>
+</head>
+<ngb-alert *ngIf="trainingAvailable" type="danger" (close)="trainingAvailable = false">{{ modelTrainedMessage }}
+</ngb-alert>
+<div *ngIf="isLoading" class="row justify-content-center" style="text-align:center; display:inline-block; width:100%;">
+    <div class="col-md-12">
+        <img src="../../../content/images/loading-bar.gif">
+    </div>
+</div>
 
-    <jhi-alert-error></jhi-alert-error>
 
-    <jhi-alert></jhi-alert>
-
-    <div class="alert alert-warning" id="no-result" *ngIf="mLModels?.length === 0">
-        <span>No mLModels found</span>
+<div *ngIf="!isLoading" class="row">
+    <div class="col-md-3">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <h1 class="display-3" style="text-align: center;color:rgb(0, 99, 138)">Teacher Predictor</h1>
+            </div>
+            <div class="col-md-12">
+                <span class="hipster img-fluid rounded"></span>
+            </div>
+        </div>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="mLModels && mLModels.length > 0">
-        <table class="table table-striped" aria-describedby="page-heading">
-            <thead>
-                <tr>
-                    <th scope="col" ><span>ID</span></th>
-                    <th scope="col" ><span>Tp</span></th>
-                    <th scope="col" ><span>Tn</span></th>
-                    <th scope="col" ><span>Fp</span></th>
-                    <th scope="col" ><span>Fn</span></th>
-                    <th scope="col" ><span>Accuracy</span></th>
-                    <th scope="col" ><span>Precision</span></th>
-                    <th scope="col" ><span>Recall</span></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let mLModel of mLModels ;trackBy: trackId">
-                    <td><a [routerLink]="['/ml-model', mLModel.id, 'view']">{{ mLModel.id }}</a></td>
-                    <td>{{ mLModel.tp }}</td>
-                    <td>{{ mLModel.tn }}</td>
-                    <td>{{ mLModel.fp }}</td>
-                    <td>{{ mLModel.fn }}</td>
-                    <td>{{ mLModel.accuracy }}</td>
-                    <td>{{ mLModel.precision }}</td>
-                    <td>{{ mLModel.recall }}</td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/ml-model', mLModel.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
+    <div class="col-md-6">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="display-6">Model Training</h2>
+                <ngb-alert *ngIf="trainingSuccessfulAlert" type="success" (close)="trainingSuccessfulAlert = ''">
+                    {{ trainingSuccessfulAlert }}
+                </ngb-alert>
+                <ngb-alert *ngIf="trainingFailedAlert" type="danger" (close)="trainingFailedAlert = ''">
+                    {{ trainingFailedAlert }}
+                </ngb-alert>
 
-                            <button type="submit"
-                                    [routerLink]="['/ml-model', mLModel.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
-
-                            <button type="submit" (click)="delete(mLModel)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
+                <form name="trainingModelForm" role="form" (ngSubmit)="train()" [formGroup]="trainingModelForm">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="form-control-label" for="trainingFile">Enter a file name for model
+                                training.</label>
+                            <input type="text" class="form-control" name="trainingFile" placeholder="Enter file name"
+                                formControlName="trainingFile" #trainingFile>
+                            <div *ngIf="trainingModelForm.get('trainingFile')!.invalid &&
+                                        (trainingModelForm.get('trainingFile')!.dirty ||
+                                        trainingModelForm.get('trainingFile')!.touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="trainingModelForm.get('trainingFile')?.errors?.required">
+                                    A training file is required.
+                                </small>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <div class="col-md-12">
+                            <label class="form-control-label" for="labelsFile">Enter a file name for model
+                                labels.</label>
+                            <input type="text" class="form-control" name="labelsFile" placeholder="Enter file name"
+                                formControlName="labelsFile" #labelsFile>
+                            <div *ngIf="trainingModelForm.get('labelsFile')!.invalid &&
+                                        (trainingModelForm.get('labelsFile')!.dirty ||
+                                        trainingModelForm.get('labelsFile')!.touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="trainingModelForm.get('labelsFile')?.errors?.required">
+                                    A labels file is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div *ngIf="isTraining" class="col-md-12" style="text-align:center; display:inline-block">
+                            <img src="../../../content/images/loading-bar.gif">
+                            <span class="lead" style="color:blue;font-weight:bold"><i>Model is training, it may take a
+                                    while, please wait.</i></span>
+                        </div>
+                        <div class="col-md-12" style="margin-top:5px;">
+                            <button type="submit" style="width: 100%;"
+                                [disabled]="trainingModelForm.invalid || isTraining || !trainingAvailable"
+                                class="btn btn-primary">Train Model</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
