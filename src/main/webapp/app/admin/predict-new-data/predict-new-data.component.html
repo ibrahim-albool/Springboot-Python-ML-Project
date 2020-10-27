@@ -22,7 +22,7 @@
         }
     </style>
 </head>
-<ngb-alert *ngIf="!modelNotTrained" type="danger" (close)="modelNotTrained = true">{{ modelNotTrainedMessage }}
+<ngb-alert *ngIf="!predictionAvailable" type="danger" (close)="predictionAvailable = true">{{ modelTrainedMessage }}
 </ngb-alert>
 
 <div *ngIf="isLoading" class="row justify-content-center" style="text-align:center; display:inline-block; width:100%;">
@@ -53,7 +53,7 @@
                     {{ predictionFailedAlert }}
                 </ngb-alert>
 
-                <form name="predictDataForm" role="form" (ngSubmit)="save()" [formGroup]="predictDataForm">
+                <form name="predictDataForm" role="form" (ngSubmit)="predict()" [formGroup]="predictDataForm">
                     <div class="form-group">
                         <div class="col-md-12">
                             <label class="form-control-label" for="fileName">Enter a file name for data
@@ -61,11 +61,11 @@
                             <input type="text" class="form-control" name="fileName" placeholder="Enter file name"
                                 formControlName="fileName" #fileName>
                         </div>
-                        <div *ngIf="isSaving" class="col-md-12" style="text-align:center; display:inline-block">
+                        <div *ngIf="isPredicting" class="col-md-12" style="text-align:center; display:inline-block">
                             <img src="../../../content/images/loading-bar.gif">
                         </div>
                         <div class="col-md-12" style="margin-top:5px;">
-                            <button type="submit" style="width: 100%;" [disabled]="isSaving || !predictionAvailable"
+                            <button type="submit" style="width: 100%;" [disabled]="isPredicting || !predictionAvailable"
                                 class="btn btn-primary">Predict</button>
                         </div>
                     </div>

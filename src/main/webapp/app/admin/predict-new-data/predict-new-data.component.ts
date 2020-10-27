@@ -16,12 +16,13 @@ export class PredictNewDataComponent implements OnInit {
   authorities: string[] = [];
 
   isLoading = false;
-  isSaving = false;
+  isPredicting = false;
   predictionAvailable = false;
   predictionSuccessfulAlert = '';
   predictionFailedAlert = '';
-  modelNotTrained = false;
-  modelNotTrainedMessage = '';
+  modelTrained = false;
+  modelTrainedMessage = '';
+
   predictDataForm = this.fb.group({
     fileName: [''],
   });
@@ -42,32 +43,33 @@ export class PredictNewDataComponent implements OnInit {
     });
   }
 
-  save(): void {
-    this.isSaving = true;
+  predict(): void {
+    this.isPredicting = true;
     this.predictDataForm.get('fileName')?.disable();
     const fileNameTemp = this.predictDataForm.get(['fileName'])!.value;
     this.predictNewDataService.predictData(fileNameTemp).subscribe(
-      response => this.onSaveSuccess(response),
-      response => this.onSaveError(response)
+      response => this.onPredictSuccess(response),
+      response => this.onPredictError(response)
     );
   }
 
-  onSaveSuccess(response: HttpResponse<any>): void {
-    this.isSaving = false;
+  onPredictSuccess(response: HttpResponse<any>): void {
+    this.isPredicting = false;
     this.predictDataForm.get('fileName')?.enable();
     if (response.status === 200) {
       this.predictionSuccessfulAlert = response.body.message;
     }
     this._alert.next();
+    this.router.navigate(['/teacher']);
   }
 
-  onSaveError(response: HttpErrorResponse): void {
-    this.isSaving = false;
+  onPredictError(response: HttpErrorResponse): void {
+    this.isPredicting = false;
     this.predictDataForm.get('fileName')?.enable();
     if (response.status === 404) {
       this.predictionFailedAlert = response.error.message;
     } else {
-      this.predictionFailedAlert = response.error.message;
+      this.predictionFailedAlert = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
     }
     this._alert.next();
   }
@@ -76,7 +78,6 @@ export class PredictNewDataComponent implements OnInit {
     this.isLoading = false;
     this.predictionAvailable = true;
     this.predictDataForm.get('fileName')?.enable();
-    this.modelNotTrained = true;
   }
 
   unsuccessfulModelCheck(response: HttpErrorResponse): void {
@@ -84,9 +85,9 @@ export class PredictNewDataComponent implements OnInit {
     this.predictionAvailable = false;
     this.predictDataForm.get('fileName')?.disable();
     if (response.status === 404) {
-      this.modelNotTrainedMessage = response.error.message;
+      this.modelTrainedMessage = response.error.message;
     } else {
-      this.modelNotTrainedMessage = response.error.message;
+      this.modelTrainedMessage = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
     }
     this._alert.next();
   }
