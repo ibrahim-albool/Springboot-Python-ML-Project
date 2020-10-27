@@ -17,16 +17,13 @@ export const mLModelRoute: Routes = [
     component: MLModelComponent,
     data: {
       authorities: [Authority.ADMIN],
-      pageTitle: 'MLModels',
+      pageTitle: 'Model Training',
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: 'trained-model',
     component: MlModelDataComponent,
-    resolve: {
-      mLModel: MLModelResolve,
-    },
     data: {
       authorities: [Authority.ADMIN],
       pageTitle: 'Trained Model',
