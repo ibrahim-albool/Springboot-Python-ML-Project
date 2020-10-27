@@ -1,4 +1,8 @@
-<div class="myDiv" id="myDiv">
-</div>
-<div class="myDiv" id="myDiv2">
+<div class="row justify-content-center">
+    <div class="col-md-12" style="border: dodgerblue;">
+        <plotly-plot [data]="graphLoss.data" [layout]="graphLoss.layout"></plotly-plot>
+    </div>
+    <div class="col-md-12">
+        <plotly-plot [data]="graphAccuracy.data" [layout]="graphAccuracy.layout"></plotly-plot>
+    </div>
 </div>

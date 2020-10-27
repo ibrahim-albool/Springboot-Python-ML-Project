@@ -1,56 +1,120 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MLModelService } from './ml-model.service';
 
 @Component({
   selector: 'jhi-ml-model-data',
-  template: '<plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>',
+  templateUrl: './ml-model-data.component.html',
 })
-export class MlModelDataComponent {
-  public graph = {
-    data: [
-      { x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: { color: 'red' } },
-      { x: [1, 2, 3], y: [2, 5, 3], type: 'bar' },
-    ],
-    layout: { width: 320, height: 240, title: 'A Fancy Plot' },
-  };
+export class MlModelDataComponent implements OnInit {
+  graphLoss: any;
+  graphAccuracy: any;
+  myData: any;
+  graphLossDataY?: any;
+  graphAccuracyDataY?: any;
+  graphDataXLoss?: number[];
+  graphDataXAccuracy?: number[];
+  ans?: number[];
+
+  constructor(private mLModelService: MLModelService) {}
+
+  ngOnInit(): void {
+    this.getModelData();
+    // this.graphDataX = this.range(this.myData.loss.length > 0 ? 1 : 0, this.myData.loss.length);
+    this.graphDataXLoss = this.range(1, 600);
+    this.graphDataXAccuracy = this.range(1, 600);
+
+    this.draw();
+    this.graphLoss.data.y = this.myData.loss;
+    this.graphAccuracy.data.y = this.myData.accuracy;
+  }
+  draw(): void {
+    this.graphLoss = {
+      data: [
+        {
+          type: 'scatter',
+          x: this.graphDataXLoss,
+          y: this.graphLossDataY,
+          mode: 'lines',
+          name: 'Red',
+          line: {
+            color: 'rgb(219, 64, 82)',
+            width: 1,
+          },
+        },
+      ],
+      layout: {
+        title: 'Model Binary Crossentropy Loss',
+        xaxis: {
+          title: 'Epochs',
+          showgrid: false,
+          zeroline: false,
+        },
+        yaxis: {
+          title: 'Loss',
+          showline: false,
+        },
+      },
+    };
+    this.graphAccuracy = {
+      data: [
+        {
+          type: 'scatter',
+          x: this.graphDataXAccuracy,
+          y: this.graphAccuracyDataY,
+          mode: 'lines',
+          name: 'Blue',
+          line: {
+            color: 'rgb(55, 128, 191)',
+            width: 1,
+          },
+        },
+      ],
+      layout: {
+        title: 'Model Training Data Accuracy',
+        xaxis: {
+          title: 'Epochs',
+          showgrid: false,
+          zeroline: false,
+        },
+        yaxis: {
+          title: 'Accuracy',
+          showline: false,
+        },
+      },
+    };
+  }
+
+  range(start: number, end: number): number[] {
+    this.ans = [];
+    for (let i = start; i <= end; i++) {
+      this.ans.push(i);
+    }
+    return this.ans;
+  }
+
+  getModelData(): void {
+    this.myData = this.mLModelService.modelHistory().subscribe();
+    this.graphLossDataY = this.myData.loss;
+
+    // eslint-disable-next-line no-console
+    console.log(this.myData);
+    this.graphAccuracyDataY = this.myData.accuracy;
+  }
+
+  //   function range(start, end) {
+  //     var ans = [];
+  //     for (let i = start; i <= end; i++) {
+  //         ans.push(i);
+  //     }
+  //     return ans;
+  // }
 }
-
-// import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-// declare var dataPlot: any;
-
-// @Component({
-//   selector: 'jhi-ml-model-data',
-//   templateUrl: './ml-model-data.component.html',
-// })
-// export class MlModelDataComponent implements OnInit {
-//   @ViewChild('div1') div1!: QueryList<ElementRef>;
-//   @ViewChild('div2') div2!: QueryList<ElementRef>;
-
-//   myData: any;
-//   constructor(div1: QueryList<ElementRef>, div2: QueryList<ElementRef>) {
-//     div1.first.nativeElement.getAttribute('id');
-//     div2.last.nativeElement.getAttribute('id');
-//   }
-
-//   ngOnInit(): void {
-
-//     this.myData = {
-//       "loss": [
-//         0.6437230565968681,
-//         0.013746686827610521,
-//         0.015016184188425541
-//       ],
-//       "accuracy": [
-//         0.6740923523902893,
-//         0.9039342403411865,
-//         0.9947881698608398,
-//         0.9943200945854187
-//       ]
-//     }
-//     this.funssss();
-//   }
-
-//   funssss(): void {
-//     dataPlot(this.myData);
-//     dataPlot.divs(this.div1.first.nativeElement.getAttribute('id'), this.div2.last.nativeElement.getAttribute('id'));
-//   }
+// export class MlModelDataComponent {
+//   public graph = {
+//     data: [
+//       { x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: { color: 'red' } },
+//       { x: [1, 2, 3], y: [2, 5, 3], type: 'bar' },
+//     ],
+//     layout: { width: 320, height: 240, title: 'A Fancy Plot' },
+//   };
 // }

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
+import { IHistory } from 'app/shared/model/ml-model-history.model';
 
 @Injectable({ providedIn: 'root' })
 export class MLModelService {
@@ -16,8 +17,8 @@ export class MLModelService {
       params: new HttpParams().set('trainingFile', trainingFile).set('labelsFile', labelsFile),
     });
   }
-  modelHistory(): Observable<HttpResponse<{}>> {
-    return this.http.get('api/modelHistory', { observe: 'response' });
+  modelHistory(): Observable<IHistory> {
+    return this.http.get<IHistory>('api/modelHistory');
   }
 
   modelMetrics(): Observable<HttpResponse<{}>> {
