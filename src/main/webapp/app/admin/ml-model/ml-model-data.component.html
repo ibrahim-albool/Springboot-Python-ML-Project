@@ -1,33 +1,34 @@
 <head>
     <style>
-      .hipster {
-      text-align: center;
-      display: inline-block;
-      width: 280px;
-      height: 230px;
-      background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
-      background-size: contain;
-      }
-      /* wait autoprefixer update to allow simple generation of high pixel density media query */
-      @media only screen and (-webkit-min-device-pixel-ratio: 2),
-      only screen and (-moz-min-device-pixel-ratio: 2),
-      only screen and (-o-min-device-pixel-ratio: 2/1),
-      only screen and (min-resolution: 192dpi),
-      only screen and (min-resolution: 2dppx) {
-      .hipster {
-      background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
-      background-size: contain;
-      }
-      }
-   </style>
+        .hipster {
+            text-align: center;
+            display: inline-block;
+            width: 270px;
+            height: 210px;
+            background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+            background-size: contain;
+        }
+
+        /* wait autoprefixer update to allow simple generation of high pixel density media query */
+        @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (-moz-min-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (min-resolution: 192dpi),
+        only screen and (min-resolution: 2dppx) {
+            .hipster {
+                background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+                background-size: contain;
+            }
+        }
+    </style>
 </head>
 <div *ngIf="isLoading" class="row justify-content-center" style="text-align:center; display:inline-block; width:100%;">
     <div class="col-md-12">
         <img src="../../../content/images/loading-bar.gif">
     </div>
     <div class="col-md-12">
-      <span class="lead" style="color:blue;font-weight:bold"><i>Graphs may take a few seconds to load, please
-      wait!</i></span>
+        <span class="lead" style="color:blue;font-weight:bold"><i>Graphs may take a few seconds to load, please
+                wait!</i></span>
     </div>
 </div>
 <div *ngIf="!isLoading" class="row">
@@ -40,104 +41,144 @@
                 <div class="col-md-8">
                     <ngb-alert *ngIf="alertSuccessfulMessage" type="success" (close)="alertSuccessfulMessage = ''">
                         {{ alertSuccessfulMessage }}</ngb-alert>
-                    <ngb-alert *ngIf="alertUnsuccessfulMessage" type="danger"
-                               (close)="alertUnsuccessfulMessage = ''">{{ alertUnsuccessfulMessage }}</ngb-alert>
+                    <ngb-alert *ngIf="alertUnsuccessfulMessage" type="danger" (close)="alertUnsuccessfulMessage = ''">
+                        {{ alertUnsuccessfulMessage }}</ngb-alert>
 
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row" style="text-align:center;">
-        <div class="column">
-            <div class="col-md-6">
-                <div  id="container">
-                    <svg width="400" height="400">
-                        <g transform="translate(100,50)">
-                            <rect width="250" height="250" style="stroke: black; stroke-width: 2px;"></rect>
-                            <g class="row" transform="translate(0,0)">
-                                <g class="cell" transform="translate(0, 0)" style="fill: rgb(236, 240, 241);">
-                                    <rect width="125" height="125" style="stroke-width: 0;"></rect>
-                                    <text dy=".32em" x="62.5" y="62.5" text-anchor="middle" style="fill: black;">Tp: {{ metricsTp }}</text>
-                                </g>
-                                <g class="cell" transform="translate(125, 0)" style="fill: rgb(255, 253, 251);">
-                                    <rect width="125" height="125" style="stroke-width: 0;"></rect>
-                                    <text dy=".32em" x="62.5" y="62.5" text-anchor="middle" style="fill: black;">Fp: {{ metricsFp }}</text>
-                                </g>
-                            </g>
-                            <g class="row" transform="translate(0,125)">
-                                <g class="cell" transform="translate(0, 0)" style="fill: rgb(255, 255, 255);">
-                                    <rect width="125" height="125" style="stroke-width: 0;"></rect>
-                                    <text dy=".32em" x="62.5" y="62.5" text-anchor="middle" style="fill: black;">Fn: {{ metricsFn }}</text>
-                                </g>
-                                <g class="cell" transform="translate(125, 0)" style="fill: rgb(236, 240, 241);">
-                                    <rect width="125" height="125" style="stroke-width: 0;"></rect>
-                                    <text dy=".32em" x="62.5" y="62.5" text-anchor="middle" style="fill: black;">Tn: {{ metricsTn }}</text>
-                                </g>
-                            </g>
-                            <g class="labels">
-                                <g class="column-label" transform="translate(0,250)">
-                                    <line x1="62.5" x2="62.5" y1="0" y2="5" style="stroke: black; stroke-width: 1px;"></line>
-                                    <text x="30" y="62.5" dy=".22em" text-anchor="end" transform="rotate(-60)">Actual True</text>
-                                </g>
-                                <g class="column-label" transform="translate(125,250)">
-                                    <line x1="62.5" x2="62.5" y1="0" y2="5" style="stroke: black; stroke-width: 1px;"></line>
-                                    <text x="30" y="62.5" dy=".22em" text-anchor="end" transform="rotate(-60)">Actual False</text>
-                                </g>
-                                <g class="row-label" transform="translate(0,0)">
-                                    <line x1="0" x2="-5" y1="62.5" y2="62.5" style="stroke: black; stroke-width: 1px;"></line>
-                                    <text x="-8" y="62.5" dy=".32em" text-anchor="end">Pred. True</text>
-                                </g>
-                                <g class="row-label" transform="translate(0,125)">
-                                    <line x1="0" x2="-5" y1="62.5" y2="62.5" style="stroke: black; stroke-width: 1px;"></line>
-                                    <text x="-8" y="62.5" dy=".32em" text-anchor="end">Pred. False</text>
-                                </g>
-                            </g>
-                        </g>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="col-md-6">
-                <div style="text-align:center;">
-                    <h5>
-                        Delete the model and all system data
-                    </h5>
-                    <div class="col-md-12" style="margin-top:5px;">
-                        <button style="width: 70%;" class="btn btn-danger"
-                                (click)="deleteModelAndTeachers()">Delete</button>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <h1 class="display-4" style="text-align: center;color:rgb(0, 99, 138)">Teachers' Courses
+                            Predictor</h1>
                     </div>
-                    <h5>
-                        Measurements
-                    </h5>
-                    <table class="table table-striped" aria-describedby="page-heading">
-                        <thead>
-                        <tr>
-                            <th scope="col"><span>Accuracy</span> </th>
-                            <th scope="col"><span>Precision</span> </th>
-                            <th scope="col"><span>Recall</span> </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{ metricsAccuracy }}</td>
-                            <td>{{ metricsPrecision }}</td>
-                            <td>{{ metricsRecall }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="col-md-12">
+                        <span class="hipster img-fluid rounded"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="container">
+                            <svg width="400" height="400">
+                                <g transform="translate(100,50)">
+                                    <rect width="250" height="250" style="stroke: black; stroke-width: 2px;"></rect>
+                                    <g class="row" transform="translate(0,0)">
+                                        <g class="cell" transform="translate(0, 0)" style="fill: rgb(236, 240, 241);">
+                                            <rect width="125" height="125" style="stroke-width: 0;"></rect>
+                                            <text dy=".32em" x="62.5" y="62.5" text-anchor="middle"
+                                                style="fill: black;">Tp:
+                                                {{ metricsTp }}</text>
+                                        </g>
+                                        <g class="cell" transform="translate(125, 0)" style="fill: rgb(255, 253, 251);">
+                                            <rect width="125" height="125" style="stroke-width: 0;"></rect>
+                                            <text dy=".32em" x="62.5" y="62.5" text-anchor="middle"
+                                                style="fill: black;">Fp:
+                                                {{ metricsFp }}</text>
+                                        </g>
+                                    </g>
+                                    <g class="row" transform="translate(0,125)">
+                                        <g class="cell" transform="translate(0, 0)" style="fill: rgb(255, 255, 255);">
+                                            <rect width="125" height="125" style="stroke-width: 0;"></rect>
+                                            <text dy=".32em" x="62.5" y="62.5" text-anchor="middle"
+                                                style="fill: black;">Fn:
+                                                {{ metricsFn }}</text>
+                                        </g>
+                                        <g class="cell" transform="translate(125, 0)" style="fill: rgb(236, 240, 241);">
+                                            <rect width="125" height="125" style="stroke-width: 0;"></rect>
+                                            <text dy=".32em" x="62.5" y="62.5" text-anchor="middle"
+                                                style="fill: black;">Tn:
+                                                {{ metricsTn }}</text>
+                                        </g>
+                                    </g>
+                                    <g class="labels">
+                                        <g class="column-label" transform="translate(0,250)">
+                                            <line x1="62.5" x2="62.5" y1="0" y2="5"
+                                                style="stroke: black; stroke-width: 1px;">
+                                            </line>
+                                            <text x="30" y="62.5" dy=".22em" text-anchor="end"
+                                                transform="rotate(-60)">Actual
+                                                True</text>
+                                        </g>
+                                        <g class="column-label" transform="translate(125,250)">
+                                            <line x1="62.5" x2="62.5" y1="0" y2="5"
+                                                style="stroke: black; stroke-width: 1px;">
+                                            </line>
+                                            <text x="30" y="62.5" dy=".22em" text-anchor="end"
+                                                transform="rotate(-60)">Actual
+                                                False</text>
+                                        </g>
+                                        <g class="row-label" transform="translate(0,0)">
+                                            <line x1="0" x2="-5" y1="62.5" y2="62.5"
+                                                style="stroke: black; stroke-width: 1px;">
+                                            </line>
+                                            <text x="-8" y="62.5" dy=".32em" text-anchor="end">Pred. True</text>
+                                        </g>
+                                        <g class="row-label" transform="translate(0,125)">
+                                            <line x1="0" x2="-5" y1="62.5" y2="62.5"
+                                                style="stroke: black; stroke-width: 1px;">
+                                            </line>
+                                            <text x="-8" y="62.5" dy=".32em" text-anchor="end">Pred. False</text>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12" style="padding-top: 40px;">
+                                <h5 class="display-5" style="margin-top: 5px;text-align: center;">Measurements </h5>
+                                <div class="col-md-12">
+                                    <table class="table table-striped" aria-describedby="page-heading">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"><span>Accuracy</span> </th>
+                                                <th scope="col"><span>Precision</span> </th>
+                                                <th scope="col"><span>Recall</span> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ metricsAccuracy }}</td>
+                                                <td>{{ metricsPrecision }}</td>
+                                                <td>{{ metricsRecall }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="display-5" style="margin-top: 5px;text-align: center;">Delete the model and all
+                            system data</h5>
+                        <div class="col-md-12" style="text-align: center;">
+                            <button class="btn btn-danger" (click)="deleteModelAndTeachers()">Delete</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <plotly-plot [data]="graphLoss.data" [layout]="graphLoss.layout"></plotly-plot>
-        </div>
-        <div class="column">
-            <plotly-plot [data]="graphAccuracy.data" [layout]="graphAccuracy.layout"></plotly-plot>
-        </div>
-    </div>
 
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <plotly-plot [data]="graphLoss.data" [layout]="graphLoss.layout"></plotly-plot>
+            </div>
+            <div class="col-md-6">
+                <plotly-plot [data]="graphAccuracy.data" [layout]="graphAccuracy.layout"></plotly-plot>
+            </div>
+        </div>
+    </div>
 </div>
