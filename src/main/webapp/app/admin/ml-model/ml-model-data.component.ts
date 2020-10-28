@@ -1,38 +1,138 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { MLModelService } from './ml-model.service';
+import { Router } from '@angular/router';
+import { interval, Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-ml-model-data',
   templateUrl: './ml-model-data.component.html',
 })
 export class MlModelDataComponent implements OnInit {
+  private _alert = new Subject<string>();
   graphLoss: any;
   graphAccuracy: any;
+
   myData: any;
+  graphDataX?: any;
   graphLossDataY?: any;
   graphAccuracyDataY?: any;
-  graphDataXLoss?: number[];
-  graphDataXAccuracy?: number[];
   ans?: number[];
 
-  constructor(private mLModelService: MLModelService) {}
+  isLoading = false;
+  alertSuccessfulMessage = '';
+  alertUnsuccessfulMessage = '';
+
+  metricsData: any;
+  metricsTp?: string;
+  metricsTn?: string;
+  metricsFp?: string;
+  metricsFn?: string;
+  metricsAccuracy?: string;
+  metricsPrecision?: string;
+  metricsRecall?: string;
+
+  constructor(private mLModelService: MLModelService, private router: Router) {}
 
   ngOnInit(): void {
-    this.getModelData();
-    // this.graphDataX = this.range(this.myData.loss.length > 0 ? 1 : 0, this.myData.loss.length);
-    this.graphDataXLoss = this.range(1, 600);
-    this.graphDataXAccuracy = this.range(1, 600);
-
-    this.draw();
-    this.graphLoss.data.y = this.myData.loss;
-    this.graphAccuracy.data.y = this.myData.accuracy;
+    this._alert.pipe(debounceTime(5000)).subscribe(() => ([this.alertSuccessfulMessage, this.alertUnsuccessfulMessage] = ['', '']));
+    this.isLoading = true;
+    this.loadModelData();
   }
+
+  loadModelData(): void {
+    this.mLModelService.modelHistory().subscribe(
+      response => this.loadModelDataSuccessful(response),
+      response => this.loadModelDataUnsuccessful(response),
+      () => this.loadModelDataComplete()
+    );
+  }
+  loadModelDataSuccessful(response: HttpResponse<any>): void {
+    if (response.body !== null) {
+      this.myData = response.body;
+    }
+  }
+  loadModelDataUnsuccessful(response: HttpErrorResponse): void {
+    if (response.status === 404) {
+      this.alertUnsuccessfulMessage = response.error.message;
+    }
+    this._alert.next();
+  }
+  loadModelDataComplete(): void {
+    this.graphLossDataY = this.myData.loss;
+    this.graphAccuracyDataY = this.myData.accuracy;
+    this.graphDataX = this.range(this.graphLossDataY.length > 0 ? 1 : 0, this.graphLossDataY.length);
+    this.draw();
+  }
+
+  loadModelMetrics(): void {
+    this.mLModelService.modelMetrics().subscribe(
+      response => this.loadModelMetricsSuccessful(response),
+      response => this.loadModelMetricsUnsuccessful(response),
+      () => this.loadModelMetricsComplete()
+    );
+  }
+  loadModelMetricsSuccessful(response: HttpResponse<any>): void {
+    if (response.body !== null) {
+      this.metricsData = response.body;
+    }
+  }
+  loadModelMetricsUnsuccessful(response: HttpErrorResponse): void {
+    if (response.status === 404) {
+      this.alertUnsuccessfulMessage = response.error.message;
+    } else {
+      this.alertUnsuccessfulMessage = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
+    }
+    this._alert.next();
+  }
+  loadModelMetricsComplete(): void {
+    this.metricsTp = this.metricsData.tp;
+    this.metricsTn = this.metricsData.tn;
+    this.metricsFp = this.metricsData.fp;
+    this.metricsFn = this.metricsData.fn;
+    this.metricsAccuracy = this.metricsData.accuracy;
+    this.metricsPrecision = this.metricsData.precision;
+    this.metricsRecall = this.metricsData.recall;
+    this.isLoading = false;
+  }
+
+  deleteModelAndTeachers(): void {
+    this.mLModelService.deleteModelAndTeachers().subscribe(
+      response => this.deletionSuccessful(response),
+      response => this.deletionUnsuccessful(response)
+    );
+  }
+  deletionSuccessful(response: HttpResponse<any>): any {
+    if (response.status === 200) {
+      this.alertSuccessfulMessage = response.body.message + 'Redirecting to home page.';
+    }
+    this._alert.next();
+    this.router.navigate(['']);
+  }
+  deletionUnsuccessful(response: HttpErrorResponse): void {
+    if (response.status === 404) {
+      this.alertUnsuccessfulMessage = response.error.message;
+    } else {
+      this.alertUnsuccessfulMessage = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
+    }
+    this._alert.next();
+  }
+
+  range(start: number, end: number): number[] {
+    this.ans = [];
+    for (let i = start; i <= end; i++) {
+      this.ans.push(i);
+    }
+    return this.ans;
+  }
+
   draw(): void {
     this.graphLoss = {
       data: [
         {
           type: 'scatter',
-          x: this.graphDataXLoss,
+          x: this.graphDataX,
           y: this.graphLossDataY,
           mode: 'lines',
           name: 'Red',
@@ -59,7 +159,7 @@ export class MlModelDataComponent implements OnInit {
       data: [
         {
           type: 'scatter',
-          x: this.graphDataXAccuracy,
+          x: this.graphDataX,
           y: this.graphAccuracyDataY,
           mode: 'lines',
           name: 'Blue',
@@ -82,39 +182,6 @@ export class MlModelDataComponent implements OnInit {
         },
       },
     };
+    this.loadModelMetrics();
   }
-
-  range(start: number, end: number): number[] {
-    this.ans = [];
-    for (let i = start; i <= end; i++) {
-      this.ans.push(i);
-    }
-    return this.ans;
-  }
-
-  getModelData(): void {
-    this.myData = this.mLModelService.modelHistory().subscribe();
-    this.graphLossDataY = this.myData.loss;
-
-    // eslint-disable-next-line no-console
-    console.log(this.myData);
-    this.graphAccuracyDataY = this.myData.accuracy;
-  }
-
-  //   function range(start, end) {
-  //     var ans = [];
-  //     for (let i = start; i <= end; i++) {
-  //         ans.push(i);
-  //     }
-  //     return ans;
-  // }
 }
-// export class MlModelDataComponent {
-//   public graph = {
-//     data: [
-//       { x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: { color: 'red' } },
-//       { x: [1, 2, 3], y: [2, 5, 3], type: 'bar' },
-//     ],
-//     layout: { width: 320, height: 240, title: 'A Fancy Plot' },
-//   };
-// }

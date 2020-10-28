@@ -1,8 +1,103 @@
-<div class="row justify-content-center">
-    <div class="col-md-12" style="border: dodgerblue;">
-        <plotly-plot [data]="graphLoss.data" [layout]="graphLoss.layout"></plotly-plot>
+<head>
+    <style>
+        .hipster {
+            text-align: center;
+            display: inline-block;
+            width: 280px;
+            height: 230px;
+            background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+            background-size: contain;
+        }
+
+        /* wait autoprefixer update to allow simple generation of high pixel density media query */
+        @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (-moz-min-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (min-resolution: 192dpi),
+        only screen and (min-resolution: 2dppx) {
+            .hipster {
+                background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+                background-size: contain;
+            }
+        }
+    </style>
+</head>
+<div *ngIf="isLoading" class="row justify-content-center" style="text-align:center; display:inline-block; width:100%;">
+    <div class="col-md-12">
+        <img src="../../../content/images/loading-bar.gif">
     </div>
     <div class="col-md-12">
+        <span class="lead" style="color:blue;font-weight:bold"><i>Graphs may take a few seconds to load, please
+                wait!</i></span>
+    </div>
+</div>
+
+<div *ngIf="!isLoading" class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <h1 class="display-4" style="text-align: center;color:rgb(0, 99, 138)">Teachers' Courses
+                            Predictor</h1>
+                    </div>
+                    <div class="col-md-12" style="padding-left: 165px;padding-right: 165px;">
+                        <span class="hipster img-fluid rounded"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <h2 class="display-6">Model Metrics Data</h2>
+                        <ngb-alert *ngIf="alertSuccessfulMessage" type="success" (close)="alertSuccessfulMessage = ''">
+                            {{ alertSuccessfulMessage }}</ngb-alert>
+                        <ngb-alert *ngIf="alertUnsuccessfulMessage" type="danger"
+                            (close)="alertUnsuccessfulMessage = ''">{{ alertUnsuccessfulMessage }}</ngb-alert>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="control-label" for="tp">tp.</label>
+                                <input type="text" name="tp" [readonly]=true [(ngModel)]="metricsTp">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="tn">tn</label>
+                                <input type="text" name="tn" [readonly]=true [(ngModel)]="metricsTn">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="fp">fp</label>
+                                <input type="text" name="fp" [readonly]=true [(ngModel)]="metricsFp">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="fn">fn</label>
+                                <input type="text" name="fn" [readonly]=true [(ngModel)]="metricsFn">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="accuracy">accuracy</label>
+                                <input type="text" name="accuracy" [readonly]=true [(ngModel)]="metricsAccuracy">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="precision">precision</label>
+                                <input type="text" name="precision" [readonly]=true [(ngModel)]="metricsPrecision">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="recall">recall</label>
+                                <input type="text" name="recall" [readonly]=true [(ngModel)]="metricsRecall">
+                            </div>
+                            <div class="col-md-12" style="margin-top:5px;">
+                                <button style="width: 100%;" class="btn btn-danger"
+                                    (click)="deleteModelAndTeachers()">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <plotly-plot [data]="graphLoss.data" [layout]="graphLoss.layout"></plotly-plot>
+    </div>
+    <div class="col-md-6">
         <plotly-plot [data]="graphAccuracy.data" [layout]="graphAccuracy.layout"></plotly-plot>
     </div>
 </div>

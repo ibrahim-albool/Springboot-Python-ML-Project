@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IHistory } from 'app/shared/model/ml-model-history.model';
 
+type EntityResponseType = HttpResponse<IHistory>;
+type EntityArrayResponseType = HttpResponse<IHistory[]>;
+
 @Injectable({ providedIn: 'root' })
 export class MLModelService {
   public resourceUrl = SERVER_API_URL + 'api/ml-models';
@@ -17,8 +20,9 @@ export class MLModelService {
       params: new HttpParams().set('trainingFile', trainingFile).set('labelsFile', labelsFile),
     });
   }
-  modelHistory(): Observable<IHistory> {
-    return this.http.get<IHistory>('api/modelHistory');
+
+  modelHistory(): Observable<EntityArrayResponseType> {
+    return this.http.get<IHistory[]>('api/modelHistory', { observe: 'response' });
   }
 
   modelMetrics(): Observable<HttpResponse<{}>> {
