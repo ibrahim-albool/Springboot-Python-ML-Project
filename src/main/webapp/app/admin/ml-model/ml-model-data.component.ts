@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { MLModelService } from './ml-model.service';
 import { Router } from '@angular/router';
-import { interval, Subject } from 'rxjs';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-ml-model-data',
