@@ -1,22 +1,41 @@
 <head>
     <style>
+        .teacherTitle {
+            text-align: center;
+            display: inline-block;
+            width: 320px;
+            height: 85px;
+            background: url('../../../content/images/teacher-predictor-logo-title.png') no-repeat center top;
+            background-size: contain;
+        }
+
         .hipster {
             text-align: center;
             display: inline-block;
-            width: 585px;
-            height: 502px;
+            width: 320px;
+            height: 278px;
             background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
             background-size: contain;
         }
 
-        /* wait autoprefixer update to allow simple generation of high pixel density media query */
+        @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (-moz-min-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (min-resolution: 192dpi),
+        only screen and (min-resolution: 2dppx) {
+            .teacherTitle {
+                background: url('../../../content/images/teacher-predictor-logo-title.png') no-repeat center top;
+                background-size: contain;
+            }
+        }
+
         @media only screen and (-webkit-min-device-pixel-ratio: 2),
         only screen and (-moz-min-device-pixel-ratio: 2),
         only screen and (-o-min-device-pixel-ratio: 2/1),
         only screen and (min-resolution: 192dpi),
         only screen and (min-resolution: 2dppx) {
             .hipster {
-                background: url('../../../content/images/teacher-predictor-logo.png') no-repeat center top;
+                background: url('../../../images/teacher-predictor-logo.png') no-repeat center top;
                 background-size: contain;
             }
         }
@@ -32,10 +51,10 @@
 <div *ngIf="!isLoading" class="row">
     <div class="col-md-4">
         <div class="row justify-content-center">
-            <div class="col-md-12">
-                <h1 class="display-3" style="text-align: center;color:rgb(0, 99, 138)">Teachers' Courses Predictor</h1>
+            <div class="col-md-10">
+                <span class="teacherTitle img-fluid rounded"></span>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <span class="hipster img-fluid rounded"></span>
             </div>
         </div>
