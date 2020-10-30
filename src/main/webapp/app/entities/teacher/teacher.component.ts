@@ -34,6 +34,8 @@ export class TeacherComponent implements OnInit, OnDestroy {
   sumOfHours = '';
   isPredicted = [{ name: 'true' }, { name: 'false' }];
   isPredicteD = '';
+  creationDate = '';
+  courses = '';
 
   constructor(
     protected teacherService: TeacherService,
@@ -58,6 +60,8 @@ export class TeacherComponent implements OnInit, OnDestroy {
         'stage.equals': this.stagE,
         'sumOfHours.equals': this.sumOfHours,
         'isPredicted.equals': this.isPredicteD,
+        'creationDate.greaterThanOrEqual': this.creationDate ,
+        'courses.equals': this.courses ,
       })
       .subscribe(
         (res: HttpResponse<ITeacher[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -98,6 +102,15 @@ export class TeacherComponent implements OnInit, OnDestroy {
     this.isPredicteD = event;
     this.loadPage(1, true);
   }
+  onCreationDateChange(event: any): void {
+    this.creationDate = new Date(event.target.value).toISOString();
+    this.loadPage(1, true);
+  }
+  onCoursesChange(event: any): void {
+      this.courses = event.target.value;
+      this.loadPage(1, true);
+    }
+
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {

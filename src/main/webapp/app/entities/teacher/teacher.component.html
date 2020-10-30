@@ -73,8 +73,8 @@
                                 {{isPredictedd.name}}</option>
                         </select>
                     </th>
-                    <th><input type="text" [attr.disabled]="true" placeholder="Search by Courses"></th>
-                    <th><input type="text" [attr.disabled]="true" placeholder="Search by Date"></th>
+                    <th><input type="text" (input)="onCoursesChange($event)" placeholder="Search by Course Code"></th>
+                    <th><input type="text" (input)="onCreationDateChange($event)" placeholder="Search by Date"></th>
                 </tr>
             </thead>
             <tbody>
