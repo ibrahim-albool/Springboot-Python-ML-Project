@@ -3,11 +3,10 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { createRequestOption } from 'app/shared/util/request-util';
-import { IMLModel } from 'app/shared/model/ml-model.model';
+import { IHistory } from 'app/shared/model/ml-model-history.model';
 
-type EntityResponseType = HttpResponse<IMLModel>;
-type EntityArrayResponseType = HttpResponse<IMLModel[]>;
+type EntityResponseType = HttpResponse<IHistory>;
+type EntityArrayResponseType = HttpResponse<IHistory[]>;
 
 @Injectable({ providedIn: 'root' })
 export class MLModelService {
@@ -15,35 +14,23 @@ export class MLModelService {
 
   constructor(protected http: HttpClient) {}
 
-  create(mLModel: IMLModel): Observable<EntityResponseType> {
-    return this.http.post<IMLModel>(this.resourceUrl, mLModel, { observe: 'response' });
-  }
-
-  update(mLModel: IMLModel): Observable<EntityResponseType> {
-    return this.http.put<IMLModel>(this.resourceUrl, mLModel, { observe: 'response' });
-  }
-
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IMLModel>(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  }
-
-  query(req?: any): Observable<EntityArrayResponseType> {
-    const options = createRequestOption(req);
-    return this.http.get<IMLModel[]>(this.resourceUrl, { params: options, observe: 'response' });
-  }
-
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  }
-
-  trainMLModel(trainingFile: string, labelsFile: string): Observable<{}> {
-    return this.http.post(this.resourceUrl, null, {
+  trainMLModel(trainingFile: string, labelsFile: string): Observable<any> {
+    return this.http.post('api/trainMLModel', null, {
+      observe: 'response',
       params: new HttpParams().set('trainingFile', trainingFile).set('labelsFile', labelsFile),
     });
   }
 
+  modelHistory(): Observable<EntityArrayResponseType> {
+    return this.http.get<IHistory[]>('api/modelHistory', { observe: 'response' });
+  }
+
   modelMetrics(): Observable<HttpResponse<{}>> {
-    return this.http.get(this.resourceUrl, { observe: 'response' });
+    return this.http.get('api/modelMetrics', { observe: 'response' });
+  }
+
+  deleteModelAndTeachers(): Observable<HttpResponse<{}>> {
+    return this.http.delete('api/deleteModelAndTeachers', { observe: 'response' });
   }
 
   authorities(): Observable<string[]> {

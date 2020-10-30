@@ -4,7 +4,6 @@ import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { ICourse } from 'app/shared/model/course.model';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
@@ -25,6 +24,14 @@ export class CourseComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  code = '';
+  specialization = [{ name: 'Arabic' }, { name: 'English' }, { name: 'Math' }, { name: 'Science' }];
+  spec = '';
+  name = '';
+  type = [{ name: 'C' }, { name: 'P' }];
+  typE = '';
+  hours = '';
+
   constructor(
     protected courseService: CourseService,
     protected activatedRoute: ActivatedRoute,
@@ -41,6 +48,11 @@ export class CourseComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
+        'code.equals': this.code,
+        'specialization.equals': this.spec,
+        'name.contains': this.name,
+        'type.equals': this.typE,
+        'hours.equals': this.hours,
       })
       .subscribe(
         (res: HttpResponse<ICourse[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -49,6 +61,11 @@ export class CourseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.code = '';
+    this.spec = '';
+    this.name = '';
+    this.typE = '';
+    this.hours = '';
     this.handleNavigation();
     this.registerChangeInCourses();
   }
@@ -66,6 +83,27 @@ export class CourseComponent implements OnInit, OnDestroy {
         this.loadPage(pageNumber, true);
       }
     }).subscribe();
+  }
+
+  onCodeChange(event: any): void {
+    this.code = event.target.value;
+    this.loadPage(1, true);
+  }
+  onSpecializationChange(event: any): void {
+    this.spec = event;
+    this.loadPage(1, true);
+  }
+  onNameChange(event: any): void {
+    this.name = event.target.value;
+    this.loadPage(1, true);
+  }
+  onTypeChange(event: any): void {
+    this.typE = event;
+    this.loadPage(1, true);
+  }
+  onHoursChange(event: any): void {
+    this.hours = event.target.value;
+    this.loadPage(1, true);
   }
 
   ngOnDestroy(): void {
@@ -113,6 +151,11 @@ export class CourseComponent implements OnInit, OnDestroy {
   }
 
   protected onError(): void {
-    this.ngbPaginationPage = this.page ?? 1;
+    this.code = '';
+    this.spec = '';
+    this.name = '';
+    this.typE = '';
+    this.hours = '';
+    this.loadPage(1, true);
   }
 }

@@ -1,7 +1,8 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-primary">
-    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()"><!--/home-->
+    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
+        <!--/home-->
         <span class="logo-img"></span>
-        <span class="navbar-title">Teacher Predictor</span>
+        <span class="navbar-title">Teachers' Courses Predictor</span>
     </a>
     <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -12,7 +13,8 @@
         [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                <a class="nav-link" routerLink="/" (click)="collapseNavbar()"><!--/home-->
+                <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+                    <!--/home-->
                     <span>
                         <fa-icon icon="home"></fa-icon>
                         <span>Home</span>
@@ -29,24 +31,24 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
                     <li>
-                        <a class="dropdown-item" routerLink="teacher" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span>Teachers</span>
-                        </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" routerLink="course" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                             <span>Courses</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="teacher" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Teachers</span>
+                        </a>
+                    </li>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         <a class="dropdown-item" routerLink="admin/ml-model" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span>Machine Learning Model</span>
+                            <span>Model Training</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
@@ -111,7 +113,8 @@
                         </a>
                     </li>
                     <li *ngSwitchCase="false">
-                        <a class="dropdown-item" routerLink="/login" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="/login" routerLinkActive="active"
+                            (click)="collapseNavbar()">
                             <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
                             <span>Sign in</span>
                         </a>

@@ -91,6 +91,8 @@ public class TeacherCriteria implements Serializable, Criteria {
 
     private BooleanFilter isPredicted;
 
+    private LongFilter courses;
+
 
     public TeacherCriteria() {
     }
@@ -104,6 +106,7 @@ public class TeacherCriteria implements Serializable, Criteria {
         this.stage = other.stage == null ? null : other.stage.copy();
         this.sumOfHours = other.sumOfHours == null ? null : other.sumOfHours.copy();
         this.isPredicted = other.isPredicted == null ? null : other.isPredicted.copy();
+        this.courses = other.courses;
     }
 
     @Override
@@ -173,6 +176,14 @@ public class TeacherCriteria implements Serializable, Criteria {
 
     public void setCreationDate(InstantFilter creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public LongFilter getCourses() {
+        return courses;
+    }
+
+    public void setCourses(LongFilter courses) {
+        this.courses = courses;
     }
 
     @Override

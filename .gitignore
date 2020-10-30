@@ -146,3 +146,22 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+python/Data/teachers_indexes
+python/Data/X
+python/Data/X_test
+python/Data/X_train
+python/Data/Y
+python/Data/Y_test
+python/Data/Y_train
+python/Model/history.json
+python/Model/metrics.json
+python/Model/weights.h5
+python/__pycache__/preproc.cpython-37.pyc
+python/__pycache__/helper.cpython-37.pyc
+python/__pycache__/model.cpython-37.pyc
+python/Data/course_absolute_address_max
+python/Data/courses_inverse
+python/Data/orig_teachers_courses
+python/Data/teachers
+python/Data/unique_courses_y
+python/Data/Y_orginal

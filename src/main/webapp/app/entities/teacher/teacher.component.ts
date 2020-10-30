@@ -4,9 +4,7 @@ import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { ITeacher } from 'app/shared/model/teacher.model';
-
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { TeacherService } from './teacher.service';
 import { TeacherDeleteDialogComponent } from './teacher-delete-dialog.component';
@@ -25,6 +23,20 @@ export class TeacherComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  number = '';
+  specialization = [{ name: 'Arabic' }, { name: 'English' }, { name: 'Math' }, { name: 'Science' }];
+  spec = '';
+  evaluation = '';
+  qualification = [{ name: 'Bachelor' }, { name: 'Diploma' }, { name: 'Master' }, { name: 'PhD' }];
+  qual = '';
+  stage = [{ name: 'Primary' }, { name: 'Secondary' }];
+  stagE = '';
+  sumOfHours = '';
+  isPredicted = [{ name: 'true' }, { name: 'false' }];
+  isPredicteD = '';
+  creationDate = '';
+  courses = '';
+
   constructor(
     protected teacherService: TeacherService,
     protected activatedRoute: ActivatedRoute,
@@ -41,6 +53,15 @@ export class TeacherComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
+        'number.equals': this.number,
+        'specialization.equals': this.spec,
+        'evaluation.equals': this.evaluation,
+        'qualification.equals': this.qual,
+        'stage.equals': this.stagE,
+        'sumOfHours.equals': this.sumOfHours,
+        'isPredicted.equals': this.isPredicteD,
+        'creationDate.greaterThanOrEqual': this.creationDate ,
+        'courses.equals': this.courses ,
       })
       .subscribe(
         (res: HttpResponse<ITeacher[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -52,6 +73,44 @@ export class TeacherComponent implements OnInit, OnDestroy {
     this.handleNavigation();
     this.registerChangeInTeachers();
   }
+
+  onNumberChange(event: any): void {
+    this.number = event.target.value;
+    this.loadPage(1, true);
+  }
+  onSpecializationChange(event: any): void {
+    this.spec = event;
+    this.loadPage(1, true);
+  }
+  onEvaluationChange(event: any): void {
+    this.evaluation = event.target.value;
+    this.loadPage(1, true);
+  }
+  onQualificationChange(event: any): void {
+    this.qual = event;
+    this.loadPage(1, true);
+  }
+  onStageChange(event: any): void {
+    this.stagE = event;
+    this.loadPage(1, true);
+  }
+  onSumOfHoursChange(event: any): void {
+    this.sumOfHours = event.target.value;
+    this.loadPage(1, true);
+  }
+  onIsPredictedChange(event: any): void {
+    this.isPredicteD = event;
+    this.loadPage(1, true);
+  }
+  onCreationDateChange(event: any): void {
+    this.creationDate = new Date(event.target.value).toISOString();
+    this.loadPage(1, true);
+  }
+  onCoursesChange(event: any): void {
+      this.courses = event.target.value;
+      this.loadPage(1, true);
+    }
+
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
@@ -114,5 +173,13 @@ export class TeacherComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+    this.number = '';
+    this.spec = '';
+    this.evaluation = '';
+    this.qual = '';
+    this.stagE = '';
+    this.sumOfHours = '';
+    this.isPredicteD = '';
+    this.loadPage(1, true);
   }
 }

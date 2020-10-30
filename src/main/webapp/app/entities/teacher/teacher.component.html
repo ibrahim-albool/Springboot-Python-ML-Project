@@ -13,20 +13,68 @@
         <span>No teachers found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="teachers && teachers.length > 0">
+    <div class="table-responsive" id="entities">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="number"><span>Number</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="specialization"><span>Specialization</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="evaluation"><span>Evaluation</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="qualification"><span>Qualification</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="stage"><span>Stage</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="sumOfHours"><span>Sum Of Hours</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="isPredicted"><span>Is Predicted</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="courses"><span>Courses</span></th>
-                    <th scope="col"  jhiSortBy="creationDate"><span>Creation Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"></th>
+                    <th scope="col" jhiSortBy="number"><span>Number</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="specialization"><span>Specialization</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="evaluation"><span>Evaluation</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="qualification"><span>Qualification</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="stage"><span>Stage</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="sumOfHours"><span>Sum Of Hours</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="isPredicted"><span>Is Predicted</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col"><span>Courses</span></th>
+                    <th scope="col" jhiSortBy="creationDate"><span>Creation Date</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                </tr>
+                <tr>
+                    <th><input type="text" (input)="onNumberChange($event)" placeholder="Search by Number"></th>
+                    <th>
+                        <select [ngModel]="specialization" (ngModelChange)="onSpecializationChange($event)">
+                            <option [value]=""></option>
+                            <option *ngFor="let spec of specialization" [value]="spec.name">{{spec.name}}</option>
+                        </select>
+                    </th>
+                    <th><input type="text" (input)="onEvaluationChange($event)" placeholder="Search by Evaluation"></th>
+                    <th>
+                        <select [ngModel]="qualification" (ngModelChange)="onQualificationChange($event)">
+                            <option [value]=""></option>
+                            <option *ngFor="let qual of qualification" [value]="qual.name">{{qual.name}}</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select [ngModel]="stage" (ngModelChange)="onStageChange($event)">
+                            <option [value]=""></option>
+                            <option *ngFor="let stagee of stage" [value]="stagee.name">{{stagee.name}}</option>
+                        </select>
+                    </th>
+                    <th><input type="text" (input)="onSumOfHoursChange($event)" placeholder="Search by Sum of Hours">
+                    </th>
+                    <th>
+                        <select [ngModel]="isPredicted" (ngModelChange)="onIsPredictedChange($event)">
+                            <option [value]=""></option>
+                            <option *ngFor="let isPredictedd of isPredicted" [value]="isPredictedd.name">
+                                {{isPredictedd.name}}</option>
+                        </select>
+                    </th>
+                    <th><input type="text" (input)="onCoursesChange($event)" placeholder="Search by Course Code"></th>
+                    <th><input type="text" (input)="onCreationDateChange($event)" placeholder="Search by Date"></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,8 +87,9 @@
                     <td>{{ teacher.sumOfHours }}</td>
                     <td>{{ teacher.isPredicted }}</td>
                     <td><span *ngFor="let courses of teacher.courses; let last = last">
-                        <a [routerLink]="['/course', courses?.code, courses?.specialization, 'view']">{{ courses.code }}</a>{{ last ? '' : ' , ' }}
-                    </span></td>
+                            <a
+                                [routerLink]="['/course', courses?.code, courses?.specialization, 'view']">{{ courses.code }}</a>{{ last ? '' : ' , ' }}
+                        </span></td>
                     <td>{{ teacher.creationDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                 </tr>
             </tbody>
@@ -53,7 +102,8 @@
         </div>
 
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage"
+                [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
     </div>
 </div>

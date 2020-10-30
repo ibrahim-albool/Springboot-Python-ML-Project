@@ -127,10 +127,13 @@ public class TeacherQueryService extends QueryService<Teacher> {
             if (criteria.getIsPredicted() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsPredicted(), Teacher_.isPredicted));
             }
-//            if (criteria.getCourseCode()!= null) {
-//                specification = specification.and(buildSpecification(criteria.getCoursesId(),
-//                    root -> root.join(Teacher_.courses, JoinType.LEFT).get(Course_.code)));
-//            }
+            if (criteria.getCreationDate() != null) {
+                specification = specification.and(
+                    buildRangeSpecification(criteria.getCreationDate(), Teacher_.creationDate));
+            }
+            if (criteria.getCourses()!= null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getCourses(),Teacher_.courses,Course_.code));
+            }
         }
         return specification;
     }

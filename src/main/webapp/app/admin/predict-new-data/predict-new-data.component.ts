@@ -1,9 +1,10 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
-import { PredictNewData } from 'app/shared/model/predict-new-data.model';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { PredictNewDataService } from './predict-new-data.service';
 
 @Component({
@@ -11,64 +12,86 @@ import { PredictNewDataService } from './predict-new-data.service';
   templateUrl: './predict-new-data.component.html',
 })
 export class PredictNewDataComponent implements OnInit {
-  predictDataFile!: PredictNewData;
+  private _alert = new Subject<string>();
   authorities: string[] = [];
 
-  isSaving = false;
-  success = false;
-  error = false;
-  error5001 = false;
-  error5002 = false;
+  isLoading = false;
+  isPredicting = false;
+  modelTrained = false;
+  predictionAvailable = false;
+  predictionSuccessfulAlert = '';
+  predictionFailedAlert = '';
+  modelTrainedMessage = '';
+
   predictDataForm = this.fb.group({
     fileName: [''],
   });
 
-  constructor(private predictNewDataService: PredictNewDataService, private route: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(private predictNewDataService: PredictNewDataService, private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this._alert.pipe(debounceTime(5000)).subscribe(() => ([this.predictionSuccessfulAlert, this.predictionFailedAlert] = ['', '']));
+
+    this.isLoading = true;
+    this.predictNewDataService.modelMetrics().subscribe(
+      () => this.successfulModelCheck(),
+      response => this.unsuccessfulModelCheck(response)
+    );
+
     this.predictNewDataService.authorities().subscribe(authorities => {
       this.authorities = authorities;
     });
   }
 
-  save(): void {
-    this.isSaving = true;
+  predict(): void {
+    this.isPredicting = true;
     this.predictDataForm.get('fileName')?.disable();
-    this.error = false;
-    this.error5001 = false;
-    this.error5002 = false;
     const fileNameTemp = this.predictDataForm.get(['fileName'])!.value;
     this.predictNewDataService.predictData(fileNameTemp).subscribe(
-      () => this.onSaveSuccess(),
-      response => this.onSaveError(response)
+      response => this.onPredictSuccess(response),
+      response => this.onPredictError(response)
     );
   }
 
-  private updateForm(predictDataFile: PredictNewData): void {
-    this.predictDataForm.patchValue({
-      fileName: predictDataFile.fileName,
-    });
-  }
-
-  private onSaveSuccess(): void {
-    this.isSaving = false;
-    this.success = true;
-    this.predictDataForm.get('fileName')?.enable();
-  }
-
-  private onSaveError(response: HttpErrorResponse): void {
-    this.isSaving = false;
-    this.predictDataForm.get('fileName')?.enable();
-    if (response.status === 500 && response.error.detail === 'No value present') {
-      this.error5001 = true;
-    } else if (
-      response.status === 500 &&
-      response.error.detail ===
-        'I/O error on GET request for "http://localhost:5000/predictXNew": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect'
-    ) {
-      this.error5002 = true;
-    } else {
-      this.error = true;
+  onPredictSuccess(response: HttpResponse<any>): void {
+    this.isPredicting = false;
+    this.predictionAvailable = false;
+    this.predictDataForm.get('fileName')?.disable();
+    if (response.status === 200) {
+      this.predictionSuccessfulAlert = response.body.message;
     }
+    this._alert.next();
+  }
+
+  onPredictError(response: HttpErrorResponse): void {
+    this.isPredicting = false;
+    this.predictDataForm.get('fileName')?.enable();
+    if (response.status === 404) {
+      this.predictionFailedAlert = response.error.message;
+    } else {
+      this.predictionFailedAlert = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
+    }
+    this._alert.next();
+  }
+
+  successfulModelCheck(): void {
+    this.isLoading = false;
+    this.modelTrained = true;
+    this.predictionAvailable = true;
+    this.predictDataForm.get('fileName')?.enable();
+  }
+
+  unsuccessfulModelCheck(response: HttpErrorResponse): void {
+    this.isLoading = false;
+    this.modelTrained = false;
+    this.predictDataForm.get('fileName')?.disable();
+    if (response.status === 404) {
+      this.modelTrainedMessage = response.error.message;
+      this.predictionAvailable = false;
+    } else {
+      this.modelTrainedMessage = 'Error: ' + response.status + ' -> (' + response.error.title + ')';
+      this.predictionAvailable = false;
+    }
+    this._alert.next();
   }
 }
