@@ -11,16 +11,49 @@
         <span>No courses found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
+    <div class="table-responsive" id="entities">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="code"><span>Code</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="specialization"><span>Specialization</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="type"><span>Type</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="hours"><span>Hours</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col" jhiSortBy="code"><span>Code</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="specialization"><span>Specialization</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="name"><span>Name</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="type"><span>Type</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="hours"><span>Hours</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
                     <th scope="col"></th>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="text" (input)="onCodeChange($event)" placeholder="Search by Code">
+                    </th>
+                    <th>
+                        <select [ngModel]="specialization" (ngModelChange)="onSpecializationChange($event)">
+                            <option [value]=""></option>
+                            <option *ngFor="let spec of specialization" [value]="spec.name">{{spec.name}}</option>
+                        </select>
+                    </th>
+                    <th>
+                        <input type="text" (input)="onNameChange($event)" placeholder="Search by Name">
+                    </th>
+                    <th>
+                        <select [ngModel]="type" (ngModelChange)="onTypeChange($event)">
+                            <option [value]=""></option>
+                            <option *ngFor="let typee of type" [value]="typee.name">{{typee.name}}</option>
+                        </select>
+                    </th>
+                    <th>
+                        <input type="text" (input)="onHoursChange($event)" placeholder="Search by Hours">
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +74,8 @@
         </div>
 
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage"
+                [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
     </div>
 </div>
